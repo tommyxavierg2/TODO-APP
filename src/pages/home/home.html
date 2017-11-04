@@ -1,14 +1,82 @@
 <ion-header>
   <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+
     <ion-title>
-      Ionic Blank
+      TODO App (Tasks: {{items.length}})
     </ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+<ion-content>
+  <h3 *ngIf="!items.length <= 0" text-center>Incompleted Tasks: ({{inProgress(items)}}) </h3>
+  <ng-container *ngFor="let item of items; let i = index">
+      <ion-list *ngIf="!item.isCompleted" inset>
+          <ion-row>
+            <ion-col col-2>
+              <ion-item>
+                <ion-checkbox (click)="markAsCompleted(i)"></ion-checkbox>
+              </ion-item>
+            </ion-col>
+              <ion-col col-8>
+                <ion-item>
+                  <ion-label [ngClass]="{'completed': item.isCompleted}" contenteditable="true"
+                             >
+                             {{ item.description }}
+                 </ion-label>
+                </ion-item>
+              </ion-col>
+              <ion-col col-2>
+                <ion-item>
+                  <button ion-button item-right (click)="delItem(index)" title="Delete">X</button>
+                </ion-item>
+              </ion-col>
+          </ion-row>
+        </ion-list>
+      </ng-container>
+
+      <h3 text-center *ngIf="!items.length <= 0">Completed Tasks: ({{isCompleted(items)}}) </h3>
+       <ng-container *ngFor="let item of items; let i = index">
+         <ion-list *ngIf="item.isCompleted" inset>
+            <ion-row>
+              <ion-col col-2>
+                <ion-item>
+                  <ion-checkbox checked="true" (click)="markAsCompleted(i)"></ion-checkbox>
+                </ion-item>
+              </ion-col>
+              <ion-col col-8>
+                 <ion-item>
+                   <ion-label [ngClass]="{'completed': item.isCompleted}" contenteditable="true">
+                               {{ item.description }}
+                   </ion-label>
+                 </ion-item>
+               </ion-col>
+               <ion-col col-2>
+                 <ion-item>
+                   <button ion-button item-right (click)="delItem(index)" title="Delete">X</button>
+                 </ion-item>
+               </ion-col>
+             </ion-row>
+           </ion-list>
+       </ng-container>
+
+    <ion-list inset>
+      <ion-row>
+        <ion-col col-10>
+           <ion-item>
+             <ion-input type="text" placeholder="Write a task"
+                         [(ngModel)]="newItem.description">
+             </ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col col-2>
+          <ion-item>
+            <button *ngIf="newItem.description" ion-button name="submitBtn" (click)="addNewItem()">+</button>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-list>
+
 </ion-content>

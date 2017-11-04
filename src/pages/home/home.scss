@@ -1,3 +1,18 @@
 page-home {
+  input {
+    text-decoration: none;
+  }
+
+  #newTask {
+    text-decoration: none;
+  }
+
+  .completed {
+    text-decoration: line-through;
+  }
+
+  .notCompleted {
+    text-decoration: none;
+  }
 
 }
