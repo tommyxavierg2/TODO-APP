@@ -1,0 +1,21 @@
+{
+  "users": [
+    {
+      "username": "Test",
+      "password": "123456789987",
+      "id": 1
+    }
+  ],
+  "tasks": [
+    {
+      "description": "Buy PS4 (someday)",
+      "isCompleted": false,
+      "id": 1
+    },
+    {
+      "description": "All good so go buy some milk",
+      "isCompleted": true,
+      "id": 2
+    }
+  ]
+}
