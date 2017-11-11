@@ -10,12 +10,20 @@ import axios from "axios";
 })
 
 export class LoginPage {
-  loginUser: Array<{username: string, password: string}>;
-  users: {username: string, password: string, id: number};
+  users: Array<{username: string, password: string, id: number}>;
+  loginUser: {username: string, password: string, id: number};
+
+  ionViewWillEnter() {
+    this.getUsers();
+  }
 
   constructor(public navCtrl: NavController) {
-    this.loginUser = [];
-    this.users = {username:"", password: "", id: 0};
+    this.loginUser = {
+      username: "",
+      password: "",
+      id: 0
+    };
+    this.users = [];
     this.getUsers();
   }
 
@@ -46,6 +54,14 @@ export class LoginPage {
     }
 
     gotoHomePage() {
-      this.navCtrl.push(HomePage);
+      axios.get('http://testing.burrow.io/users?username=' + this.loginUser.username ).then(response => {
+              this.loginUser = response.data;
+              sessionStorage.setItem('userData', JSON.stringify(this.loginUser));
+              this.loginUser.username = "";
+              this.loginUser.password = "";
+              this.navCtrl.push(HomePage);
+            }).catch(erorr => {
+              console.log(erorr);
+          });
     }
 }

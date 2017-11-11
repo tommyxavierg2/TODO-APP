@@ -2,20 +2,54 @@
   "users": [
     {
       "username": "Test",
-      "password": "123456789987",
+      "password": "123456",
       "id": 1
+    },
+    {
+      "username": "danny",
+      "password": "123456",
+      "id": 4
+    },
+    {
+      "username": "Javier",
+      "password": "123456",
+      "id": 5
+    },
+    {
+      "username": "Kaioken",
+      "password": "nosenose",
+      "id": 6
+    },
+    {
+      "username": "fvasquez",
+      "password": "123456",
+      "id": 7
     }
   ],
   "tasks": [
     {
-      "description": "Buy PS4 (someday)",
+      "description": "Testing the TODO App",
       "isCompleted": false,
-      "id": 1
+      "userId": 4,
+      "id": 3
     },
     {
-      "description": "All good so go buy some milk",
-      "isCompleted": true,
-      "id": 2
+      "description": "Buy some milk ",
+      "isCompleted": false,
+      "userId": 1,
+      "id": 4
+    },
+    {
+      "description": "This awesomr",
+      "isCompleted": false,
+      "userId": 5,
+      "id": 8
+    },
+    {
+      "description": "Abc",
+      "isCompleted": false,
+      "userId": 5,
+      "id": 11
     }
   ]
 }

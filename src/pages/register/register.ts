@@ -7,40 +7,43 @@ import { NavController } from 'ionic-angular';
 })
 
 export class RegisterPage {
-  newUser: Array<{username: string, password: string, confirmPassword: string}>;
-  users: {username: string, password: string, id: number};
+  newUser: {username: string, password: string, confirmPassword: string};
+  users: Array<{username: string, password: string, id: number}>;
 
   constructor(public navCtrl: NavController) {
-    this.newUser = [];
-    this.users = {};
+    this.users = [];
     this.getUsers();
+    this.newUser = {
+      username: "",
+      password: "",
+      confirmPassword: "",
+    };
   }
 
   registerNewUser() {
     let isUserRegistered = this.users.some(user => this.newUser.username == user.username);
-    let noEmptyFields = this.users.some(user => this.newUser != "");
     if(isUserRegistered) {
        alert(`Oops! I'm sorry but it seems the username: ${this.newUser.username} has already been taken, please try another one`);
-    } else if(noEmptyFields) {
+    } else if(this.newUser.username == "" || this.newUser.password == "" || this.newUser.confirmPassword == "") {
        alert("Please make sure all fields are properly filled");
-    } else if(this.newUser.password.length < 10 && this.newUser.confirmPassword.length < 10) {
-       alert("Please make sure password has more than 10 characters");
+    } else if(this.newUser.password.length < 6 && this.newUser.confirmPassword.length < 6) {
+       alert("Please make sure the password has more than 6 characters");
     } else if(this.newUser.password != this.newUser.confirmPassword) {
-       alert(`Per security validations we require both passwords fields to be equal,
-             please make sure to enter the same password in both fields`);
+       alert("Per security validations we require both passwords fields to be equal, please make sure to enter the same password in both fields");
     } else {
         axios.post('http://testing.burrow.io/users', {
                   username: this.newUser.username,
                   password: this.newUser.password
                  }).then(response => {
+                     alert("You've been sucessfully registered, Welcome to our family!");
+                     this.newUser.username = "";
+                     this.newUser.password = "";
+                     this.newUser.confirmPassword = "";
+                     this.getUsers();
+                     this.goBack();
                  }).catch(error => {
-                  console.log(error);
+                    console.log(error);
              });
-        alert("You've been sucessfully registered, Welcome to our family!");
-        this.newUser.username = "";
-        this.newUser.password = "";
-        this.newUser.confirmPassword = "";
-        this.goBack();
       }
   }
 

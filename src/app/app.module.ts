@@ -7,6 +7,7 @@ import { LoginPage } from '../pages/login/login';
 import { HomePage } from '../pages/home/home';
 import { RegisterPage } from '../pages/register/register';
 import { MyApp } from './app.component';
+import { IonicStorageModule } from '@ionic/storage';
 import axios from 'axios';
 
 
@@ -19,7 +20,8 @@ import axios from 'axios';
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [

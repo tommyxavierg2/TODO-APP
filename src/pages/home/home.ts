@@ -8,16 +8,29 @@ import axios from "axios"
 })
 
 export class HomePage {
-  tasks: Array<{description: string, isCompleted: boolean, id: number}>;
+  userData: {username: string, password: string, id: number};
+  tasks: Array<{description: string, isCompleted: boolean, userId: number, id: number}>;
   newTask: {description: string, isCompleted: boolean};
 
-  constructor(public navCtrl: NavController) {
-    this.tasks = [];
+  ionViewWillEnter() {
+    this.userData = JSON.parse(sessionStorage.getItem('userData'));
+    console.log(this.userData[0]);
+  }
+
+  ionViewDidEnter() {
     this.getTasks();
+  }
+
+  ionViewDidLeave() {
+    sessionStorage.removeItem('userData');
+  }
+
+  constructor(public navCtrl: NavController) {
     this.newTask = {
       description: "",
-      isCompleted: false,
+      isCompleted: false
     };
+    this.tasks = [];
   }
 
   updateTasks(index) {
@@ -36,7 +49,7 @@ export class HomePage {
   }
 
   getTasks() {
-    axios.get('http://testing.burrow.io/tasks').then(response => {
+    axios.get('http://testing.burrow.io/tasks?userId=' + this.userData[0].id ).then(response => {
             this.tasks = response.data;
           }).catch(erorr => {
             console.log(erorr);
@@ -48,15 +61,15 @@ export class HomePage {
     if(!isDuplicated) {
         axios.post('http://testing.burrow.io/tasks', {
               description: this.newTask.description,
-              isCompleted: this.newTask.isCompleted
+              isCompleted: this.newTask.isCompleted,
+              userId: this.userData[0].id,
            }).then(response => {
-            //  console.log(response);
+              this.newTask.description = "";
               this.getTasks();
            }).catch(error => {
              console.log(error);
         });
 
-        this.newTask.description = "";
     } else {
         alert("This task is already on the list, ¿Do you want to add a different one?");
       }
