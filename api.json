@@ -24,6 +24,16 @@
       "username": "fvasquez",
       "password": "123456",
       "id": 7
+    },
+    {
+      "username": "Migoal17",
+      "password": "maiicol17",
+      "id": 9
+    },
+    {
+      "username": "asdasdasd",
+      "password": "123456",
+      "id": 10
     }
   ],
   "tasks": [
@@ -50,6 +60,23 @@
       "isCompleted": false,
       "userId": 5,
       "id": 11
+    },
+    {
+      "description": "Tesis camarera",
+      "isCompleted": false,
+      "userId": 9,
+      "id": 13
+    },
+    {
+      "description": "Clase de Revit",
+      "isCompleted": false,
+      "userId": 9,
+      "id": 15
+    },
+    {
+      "description": "Have some fun",
+      "isCompleted": false,
+      "id": 16
     }
   ]
 }

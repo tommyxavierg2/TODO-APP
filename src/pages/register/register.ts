@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, LoadingController } from 'ionic-angular';
 
 @Component({
   templateUrl: 'register.html'
@@ -10,7 +10,11 @@ export class RegisterPage {
   newUser: {username: string, password: string, confirmPassword: string};
   users: Array<{username: string, password: string, id: number}>;
 
-  constructor(public navCtrl: NavController) {
+  ionViewWillEnter() {
+    this.getUsers();
+  }
+
+  constructor(public navCtrl: NavController, public loadingCtrl: LoadingController) {
     this.users = [];
     this.getUsers();
     this.newUser = {
@@ -31,15 +35,13 @@ export class RegisterPage {
     } else if(this.newUser.password != this.newUser.confirmPassword) {
        alert("Per security validations we require both passwords fields to be equal, please make sure to enter the same password in both fields");
     } else {
-        axios.post('http://testing.burrow.io/users', {
+        axios.post('https://testing1.burrow.io/users', {
                   username: this.newUser.username,
                   password: this.newUser.password
                  }).then(response => {
                      alert("You've been sucessfully registered, Welcome to our family!");
-                     this.newUser.username = "";
-                     this.newUser.password = "";
-                     this.newUser.confirmPassword = "";
-                     this.getUsers();
+                     this.newUser = "";
+                     this.presentLoadingDefault();
                      this.goBack();
                  }).catch(error => {
                     console.log(error);
@@ -48,7 +50,7 @@ export class RegisterPage {
   }
 
   getUsers() {
-    axios.get('http://testing.burrow.io/users').then(response => {
+    axios.get('https://testing1.burrow.io/users').then(response => {
             this.users = response.data;
           }).catch(erorr => {
             console.log(erorr);
@@ -58,5 +60,17 @@ export class RegisterPage {
     goBack() {
         this.navCtrl.pop();
     }
+
+    presentLoadingDefault() {
+      let loading = this.loadingCtrl.create({
+        content: 'Please wait...'
+      });
+
+      loading.present();
+
+      setTimeout(() => {
+          loading.dismiss();
+      }, 2000);
+  }
 
 }
