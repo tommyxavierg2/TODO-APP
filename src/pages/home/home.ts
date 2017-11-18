@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController } from 'ionic-angular';
+import { NavController, LoadingController, MenuController } from 'ionic-angular';
 import axios from "axios"
+axios.defaults.baseURL = 'https://iypd6axr.burrow.io/';
 
 @Component({
   selector: 'page-home',
@@ -8,68 +9,72 @@ import axios from "axios"
 })
 
 export class HomePage {
-  userData: {username: string, password: string, id: number};
+  userData: any;
   tasks: Array<{description: string, isCompleted: boolean, userId: number, id: number}>;
   newTask: {description: string, isCompleted: boolean};
 
   ionViewWillEnter() {
     this.userData = JSON.parse(sessionStorage.getItem('userData'))[0];
-    this.presentLoadingDefault();
+    if(!this.userData) {
+       alert("I'm sorry, but in order to review, update or delete your tasks you first need to be logged in, you'll be redirected to the login page");
+       this.navCtrl.pop();
+     }
   }
 
   ionViewDidEnter() {
-    this.getTasks();
-  }
+    if(this.userData){
+        this.getTasks();
+       }
+    }
 
-  ionViewWillLeave() {
-    sessionStorage.removeItem('userData');
-  }
-
-  constructor(public navCtrl: NavController, public loadingCtrl: LoadingController) {
-    this.newTask = {
-      description: "",
-      isCompleted: false
-    };
+  constructor(public navCtrl: NavController, public loadingCtrl: LoadingController, public menuCtrl: MenuController) {
     this.tasks = [];
-  }
+    this.newTask = { description: "", isCompleted: false };
+    this.openMenu();
+}
 
   updateTasks(index) {
     let temporaryTask = this.tasks[index];
-    if(temporaryTask.description == "" || temporaryTask.description == "\n" || temporaryTask.description == "\n\n"){
+    if(temporaryTask.description == "" || temporaryTask.description == "\n" || temporaryTask.description == "\n\n") {
         alert("The task you're trying to update is empty please check if your changes have been written");
     } else {
-        axios.put('https://testing1.burrow.io/tasks/' + temporaryTask.id, {
+        axios.put(`/tasks/${temporaryTask.id}`, {
                    description: temporaryTask.description,
-                   isCompleted: temporaryTask.isCompleted
+                   isCompleted: temporaryTask.isCompleted,
+                   userId: this.userData.id
                }).then(response => {
-                   alert("The Task has been successfully updated");
+                    alert("Task updated");
                }).catch(error => {
-                  console.log(error);
+                  alert(`Task was not updated ${error}, please try again later`);
              });
          }
   }
 
   getTasks() {
-    axios.get(`https://testing1.burrow.io/tasks?userId=${this.userData.id}`).then(response => {
-            this.tasks = response.data;
-          }).catch(erorr => {
-            console.log(erorr);
+    axios.get(`/tasks?userId=${this.userData.id}`)
+            .then(response => {
+               this.tasks = response.data;
+           }).catch(error => {
+            alert(`Tasks error: ${error}, please try again later`);
         });
     }
 
   addTask() {
     let isDuplicated = this.tasks.some(task => this.newTask.description == task.description);
     if(!isDuplicated) {
-        axios.post('https://testing1.burrow.io/tasks', {
-              description: this.newTask.description,
-              isCompleted: this.newTask.isCompleted,
-              userId: this.userData.id,
-           }).then(response => {
-              this.newTask.description = "";
-              this.getTasks();
-           }).catch(error => {
-             console.log(error);
-        });
+        axios.post('/tasks', {
+                description: this.newTask.description,
+                isCompleted: this.newTask.isCompleted,
+                userId: this.userData.id
+              })
+             .then(response => {
+                alert("Task added");
+                this.newTask.description = "";
+                this.newTask.isCompleted = false;
+                this.getTasks();
+             }).catch(error => {
+               console.log(error);
+          });
 
     } else {
         alert("This task is already on the list, add a different one");
@@ -79,14 +84,15 @@ export class HomePage {
   deleteTask(index) {
     let taskIndex = this.tasks[index].id;
     this.tasks.splice(index, 1);
-    axios.delete('https://testing1.burrow.io/tasks/' + taskIndex ).then(response => {
-           alert("Task successfully deleted");
+    axios.delete('/tasks/' + taskIndex ).then(response => {
+           alert("Task deleted");
         }).catch(error => {
            console.log(error);
         })
   }
 
   isCompleted = function() {
+
     return this.tasks.filter(task => task.isCompleted == true).length;
    }
 
@@ -94,16 +100,8 @@ export class HomePage {
     return this.tasks.filter(task => task.isCompleted == false).length;
   }
 
-  presentLoadingDefault() {
-    let loading = this.loadingCtrl.create({
-      content: 'Loading tasks...'
-    });
-
-    loading.present();
-
-    setTimeout(() => {
-        loading.dismiss();
-    }, 3000);
+  openMenu() {
+    this.menuCtrl.enable(true, 'menu-left');
   }
 
 }

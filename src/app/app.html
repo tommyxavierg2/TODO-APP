@@ -1,1 +1,20 @@
-<ion-nav [root]="rootPage"></ion-nav>
+<ion-content padding>
+<ion-menu [content]="content" persistent="true">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Tasks Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+        <ion-list>
+          <button *ngIf="facebookUser" detail-none menuClose ion-item (click)="logoutFacebook()">LogOut</button>
+
+          <button menuClose detail-none ion-item (click)="logoutGoogle()">LogOut</button>
+        </ion-list>
+  </ion-content>
+
+</ion-menu>
+
+<!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->
+<ion-nav #content [root]="rootPage" swipeBackEnabled="false"></ion-nav>
