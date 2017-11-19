@@ -1,13 +1,16 @@
 <ion-header>
-  <ion-navbar>
+  <ion-toolbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
     <ion-title>
       TODO App (Tasks: {{tasks.length}})
     </ion-title>
-  </ion-navbar>
+  </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <h3 *ngIf="tasks.length > 0" text-center>Incompleted Tasks: ({{inProgress(tasks)}}) </h3>
+<ion-content padding>
+  <h3 *ngIf="inProgress(tasks)" text-center>Incompleted Tasks: ({{inProgress(tasks)}}) </h3>
   <ng-container *ngFor="let task of tasks; let i = index">
       <ion-list *ngIf="!task.isCompleted;" inset>
           <ion-row>
@@ -33,8 +36,8 @@
         </ion-list>
       </ng-container>
 
-      <h3 text-center *ngIf="!tasks.length <= 0">Completed Tasks: ({{isCompleted(tasks)}}) </h3>
-       <ng-container *ngFor="let task of tasks; let i = index">
+      <h3 text-center *ngIf="isCompleted(tasks)">Completed Tasks: ({{isCompleted(tasks)}}) </h3>
+      <ng-container *ngFor="let task of tasks; let i = index">
          <ion-list *ngIf="task.isCompleted" inset>
             <ion-row justify-content-around>
               <ion-col col-2>
@@ -52,8 +55,8 @@
                </ion-col>
                <ion-col col-5>
                  <ion-item>
-                   <button ion-button (click)="updateTasks(i)">Save</button>
-                   <button ion-button color="danger" round (click)="deleteTask(i)" title="Delete">X</button>
+                   <button ion-button round (click)="updateTasks(i)">Save</button>
+                   <button ion-button round color="danger" (click)="deleteTask(i)" title="Delete">X</button>
                  </ion-item>
                </ion-col>
              </ion-row>
@@ -70,8 +73,8 @@
           </ion-item>
         </ion-col>
         <ion-col col-3>
-          <ion-item>
-            <button *ngIf="newTask.description" ion-button round name="submitBtn" (click)="addTask()">+</button>
+          <ion-item *ngIf="newTask.description" >
+            <button ion-button round name="submitBtn" (click)="addTask()">+</button>
           </ion-item>
         </ion-col>
       </ion-row>
