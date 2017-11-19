@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Component } from '@angular/core';
 import { NavController, LoadingController } from 'ionic-angular';
-axios.defaults.baseURL = 'https://iypd6axr.burrow.io/';
+axios.defaults.baseURL = 'https://testing.burrow.io';
 
 @Component({
   templateUrl: 'register.html'

@@ -15,9 +15,8 @@ import { Facebook } from '@ionic-native/facebook';
 export class MyApp {
   @ViewChild('content') navCtrl: NavController;
   rootPage:any = LoginPage;
-  isFacebook: boolean = false;
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private googlePlus: GooglePlus, private facebook: Facebook) {
+  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private googlePlus: GooglePlus, private facebook: Facebook, public navCtrl: NavController) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -26,7 +25,17 @@ export class MyApp {
     });
   }
 
-   logoutGoogle() {
+  logout() {
+    this.facebook.getLoginStatus(response => {
+      if(response.status === "connected") {
+           this.logoutFacebook();
+       } else {
+         this.logoutGoogle();
+       }
+      })
+  }
+
+  logoutGoogle() {
     this.googlePlus.logout().then(res=> {
       firebase.auth().signOut()
           .then(res => {
@@ -43,14 +52,14 @@ export class MyApp {
   }
 
    logoutFacebook() {
-    this.isFacebook = true;
-    if(!this.isFacebook){
-        this.facebook.logout()
-        .then( res => {
-          alert("Hope to see you soon!");
-        })
-        .catch(e => alert("Error logout from facebook"));
-      }
-    }
+     this.facebook.logout()
+     .then( response => {
+       alert("Hope to see you soon");
+       this.navCtrl.pop();
+     })
+      .catch(err => {
+        alert(("err"));
+      });
 
+   }
 }
