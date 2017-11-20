@@ -7,33 +7,45 @@ import { GooglePlus } from '@ionic-native/google-plus';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 import firebase from 'firebase';
 import axios from "axios"
-axios.defaults.baseURL = 'https://iypd6axr.burrow.io/';
+axios.defaults.baseURL = 'https://of7anpsi.burrow.io/';
 
 @Component({
   templateUrl: 'login.html'
 })
 
 export class LoginPage {
+  newUserData: any;
   users: any;
-  isLoggedIn: any = false;
+  isLoggedIn: boolean;
   googleUserData: any;
   facebookUserData: any;
   googleUserProfile: any = null;
   loginUser: {email: string, password: string, id: number};
 
   ionViewWillEnter() {
-      sessionStorage.removeItem('userData');
+    this.newUserData = JSON.parse(sessionStorage.getItem('newUserData'));
+    if (this.newUserData) {
+      axios.get(`/users?email=${this.newUserData.email}`)
+        .then(res => {
+            this.newUserData = res.data;
+            this.goToHomePage(this.newUserData);
+            this.newUserData = {email: "", pasword: "", id: null};
+        })
+    } else {
       this.menu.enable(false);
       this.getUsers();
+    }
   }
 
   ionViewDidLeave() {
       this.loginUser = { email: "", password: "", id: null };
       this.menu.enable(true);
+      sessionStorage.removeItem('newUserData');
   }
 
   constructor(public navCtrl: NavController, public loadingCtrl: LoadingController, public menu: MenuController, private googlePlus: GooglePlus, private facebook: Facebook) {
     this.loginUser = { email: "", password: "", id: 0 };
+    this.isLoggedIn= false;
   }
 
   goToRegisterPage() {
@@ -143,15 +155,16 @@ loginWithFacebook() {
           alert(`The password for user: ${this.loginUser.email} is not correct, please verify and try again.`);
 
     } else {
-      this.presentLoadingDefault();
-      axios.get(`/users?email=${this.loginUser.email}&password=${this.loginUser.password}`)
-      .then(response => {
-        this.goToHomePage(this.loginUser)
-        this.loginUser = { email: "", password: "", id: null };
-        this.isLoggedIn = true;
-      }).catch(error => {
-        alert(`Error: ${error}`);
-      });
+       this.presentLoadingDefault();
+       axios.get(`/users?email=${this.loginUser.email}&password=${this.loginUser.password}`)
+        .then(response => {
+           this.isLoggedIn = true;
+           this.loginUser = { email: "", password: "", id: null };
+           this.goToHomePage(response.data);
+        })
+        .catch(error => {
+            alert(`Error: ${error}`);
+        });
      }
 
    }

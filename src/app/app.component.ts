@@ -6,7 +6,9 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { GooglePlus } from '@ionic-native/google-plus';
 import firebase from 'firebase';
 import { LoginPage } from '../pages/login/login';
+import {TabsPage } from '../pages/tabs/tabs';
 import { Facebook } from '@ionic-native/facebook';
+import { HomePage } from '../pages/home/home';
 
 @Component({
   templateUrl: 'app.html'
@@ -14,8 +16,7 @@ import { Facebook } from '@ionic-native/facebook';
 
 export class MyApp {
   @ViewChild('content') navCtrl: NavController;
-  rootPage:any = LoginPage;
-  isFacebook: boolean = false;
+  rootPage:any = TabsPage;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private googlePlus: GooglePlus, private facebook: Facebook) {
     platform.ready().then(() => {
@@ -26,7 +27,17 @@ export class MyApp {
     });
   }
 
-   logoutGoogle() {
+  logout() {
+    this.facebook.getLoginStatus(response => {
+      if(response.status === "connected") {
+           this.logoutFacebook();
+       } else {
+         this.logoutGoogle();
+       }
+     })
+  }
+
+  logoutGoogle() {
     this.googlePlus.logout().then(res=> {
       firebase.auth().signOut()
           .then(res => {
@@ -43,14 +54,15 @@ export class MyApp {
   }
 
    logoutFacebook() {
-    this.isFacebook = true;
-    if(!this.isFacebook){
-        this.facebook.logout()
-        .then( res => {
-          alert("Hope to see you soon!");
-        })
-        .catch(e => alert("Error logout from facebook"));
-      }
-    }
+     this.facebook.logout()
+     .then( response => {
+       alert("Hope to see you soon");
+       sessionStorage.removeItem('userData');
+       this.navCtrl.pop();
+     })
+      .catch(err => {
+        alert(("err"));
+      });
+   }
 
 }

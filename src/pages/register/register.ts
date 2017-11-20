@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Component } from '@angular/core';
-import { NavController, LoadingController } from 'ionic-angular';
-axios.defaults.baseURL = 'https://iypd6axr.burrow.io/';
+import { LoadingController, NavController, ToastController } from 'ionic-angular';
+axios.defaults.baseURL = 'https://of7anpsi.burrow.io/';
 
 @Component({
   templateUrl: 'register.html'
@@ -15,7 +15,11 @@ export class RegisterPage {
     this.getUsers();
   }
 
-  constructor(public navCtrl: NavController, public loadingCtrl: LoadingController) {
+  ionViewDidLeave() {
+    this.newUser = { email: "", password: "", confirmPassword: "" }
+  }
+
+  constructor(public loadingCtrl: LoadingController, public navCtrl: NavController, public tostCtrl: ToastController) {
     this.users = [];
     this.getUsers();
     this.newUser = { email: "", password: "", confirmPassword: "" };
@@ -36,18 +40,14 @@ export class RegisterPage {
                   email: this.newUser.email,
                   password: this.newUser.password
                  }).then(response => {
-                     alert(`You've been sucessfully registered ${this.newUser.email}, Welcome to our family!`);
-                     this.newUser = { email: "", password: "", confirmPassword: "" }
                      this.presentLoadingDefault();
-                     this.navCtrl.pop();
+                     sessionStorage.setItem('newUserData', JSON.stringify(this.newUser));
+                     this.newUser = { email: "", password: "", confirmPassword: "" }
+                     this.navCtrl.parent.select(0);
                  }).catch(error => {
                     console.log(error);
              });
       }
-  }
-
-  goBack() {
-    this.navCtrl.pop();
   }
 
   getUsers() {
@@ -60,14 +60,23 @@ export class RegisterPage {
 
     presentLoadingDefault() {
       let loading = this.loadingCtrl.create({
-        content: 'Please wait...'
+        content: `You've been sucessfully registered ${this.newUser.email}, Welcome to our family!`
       });
 
       loading.present();
 
       setTimeout(() => {
           loading.dismiss();
-      }, 2000);
+      }, 3000);
+  }
+
+  presentToast() {
+    let toast = this.toastCtrl.create({
+      message: 'Task sucessfully added',
+      duration: 1500,
+      pos: 'middle'
+    });
+    toast.present();
   }
 
 }
