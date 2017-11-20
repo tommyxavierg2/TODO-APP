@@ -11,17 +11,20 @@
 
       <div>
        <ion-item>
-          <ion-input type="text" placeholder="email" [(ngModel)]="newUser.email" name="email"></ion-input>
+         <ion-label floating> email</ion-label>
+          <ion-input type="text" [(ngModel)]="newUser.email" name="email"></ion-input>
        </ion-item>
      </div>
      <div>
       <ion-item>
-        <ion-input type="password" placeholder="password" [(ngModel)]="newUser.password" name="password"></ion-input>
+        <ion-label floating>password</ion-label>
+        <ion-input type="password" [(ngModel)]="newUser.password" name="password"></ion-input>
       </ion-item>
     </div>
     <div>
      <ion-item>
-       <ion-input type="password" placeholder="confirm password" [(ngModel)]="newUser.confirmPassword" name="confirmPassword"></ion-input>
+       <ion-label floating>confirm password</ion-label>
+       <ion-input type="password" [(ngModel)]="newUser.confirmPassword" name="confirmPassword"></ion-input>
      </ion-item>
    </div>
       <ion-item>
