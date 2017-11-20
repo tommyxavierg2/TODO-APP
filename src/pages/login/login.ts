@@ -7,7 +7,7 @@ import { GooglePlus } from '@ionic-native/google-plus';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 import firebase from 'firebase';
 import axios from "axios"
-axios.defaults.baseURL = 'https://iypd6axr.burrow.io/';
+axios.defaults.baseURL = 'https://testing.burrow.io';
 
 @Component({
   templateUrl: 'login.html'
@@ -15,7 +15,7 @@ axios.defaults.baseURL = 'https://iypd6axr.burrow.io/';
 
 export class LoginPage {
   users: any;
-  isLoggedIn: any = false;
+  isLoggedIn: boolean = false;
   googleUserData: any;
   facebookUserData: any;
   googleUserProfile: any = null;
@@ -23,6 +23,7 @@ export class LoginPage {
 
   ionViewWillEnter() {
       sessionStorage.removeItem('userData');
+      this.isLoggedIn = false;
       this.menu.enable(false);
       this.getUsers();
   }
@@ -86,9 +87,11 @@ export class LoginPage {
 
 loginWithFacebook() {
 
-  this.facebook.login(['email', 'public_profile']).then((response: FacebookLoginResponse) => {
-    this.facebook.api('me?fields=id,name,email,first_name,picture.widht(150).height(150).as(picture_large)', [])
+  this.facebook.login(['email']).then((response: FacebookLoginResponse) => {
+    this.facebook.api('me?fields=name,email', [])
       .then(profile => {
+        //alert(JSON.stringify(profile));
+
         this.facebookUserData = {
           "email": profile['email'],
           "username": profile['name']

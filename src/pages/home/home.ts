@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, LoadingController, MenuController } from 'ionic-angular';
 import axios from "axios"
-axios.defaults.baseURL = 'https://iypd6axr.burrow.io/';
+axios.defaults.baseURL = 'https://testing.burrow.io';
 
 @Component({
   selector: 'page-home',

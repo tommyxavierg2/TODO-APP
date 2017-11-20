@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
-import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { IonicApp, IonicErrorHandler, IonicModule, NavController } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { MyApp } from './app.component';
@@ -49,12 +49,13 @@ firebase.initializeApp(firebaseConfig);
     StatusBar,
     SplashScreen,
     GooglePlus,
+    Facebook,
+    NavController,
     {
       provide: ErrorHandler,
       useValue: axios,
       useClass: IonicErrorHandler
     },
-    Facebook
   ]
 })
 export class AppModule {}
