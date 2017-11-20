@@ -67,8 +67,8 @@
       <ion-row>
         <ion-col col-9>
            <ion-item>
-             <ion-input type="text" placeholder="Write a task"
-                         [(ngModel)]="newTask.description" (keyup.enter)="addTask()">
+             <ion-label floating>Write a task</ion-label>
+             <ion-input type="text" [(ngModel)]="newTask.description" (keyup.enter)="addTask()">
              </ion-input>
           </ion-item>
         </ion-col>

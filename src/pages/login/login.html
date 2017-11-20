@@ -18,11 +18,13 @@
     </button>
 
    <ion-item *ngIf="!isLoggedIn">
-      <ion-input type="text" placeholder="email" [(ngModel)]="loginUser.email" name="email"></ion-input>
+     <ion-label floating>email</ion-label>
+      <ion-input type="text" [(ngModel)]="loginUser.email" name="email"></ion-input>
    </ion-item>
 
   <ion-item *ngIf="!isLoggedIn">
-    <ion-input type="password" placeholder="password" [(ngModel)]="loginUser.password" name="userPassword"></ion-input>
+    <ion-label floating>password</ion-label>
+    <ion-input type="password" [(ngModel)]="loginUser.password" name="userPassword"></ion-input>
   </ion-item>
 
   <ion-item *ngIf="!isLoggedIn">
