@@ -9,47 +9,14 @@
       "email": "Jhon@gmail.com",
       "password": "123456789",
       "id": 7
-    },
-    {
-      "email": "20153188@itla.edu.do",
-      "uid": "IrSQemQ72lOqkDrTM495K7KPcfJ3",
-      "id": 9
-    },
+    }
     {
       "email": "tommyxavierg@gmail.com",
       "username": "Tommy Xavier Gomez Garcia",
       "id": 10
-    },
-    {
-      "email": "tomnyxavierg@gmail.com",
-      "password": "123456",
-      "id": 11
     }
   ],
   "tasks": [
-    {
-      "description": " H fb dv dg dhneg ehecexecrcrcr",
-      "isCompleted": false,
-      "userId": 10,
-      "id": 5
-    },
-    {
-      "description": "Testing",
-      "isCompleted": false,
-      "userId": 5,
-      "id": 10
-    },
-    {
-      "description": "F sf sgbeg",
-      "isCompleted": true,
-      "userId": 5,
-      "id": 11
-    },
-    {
-      "description": "Rbsgbsgbgwb",
-      "isCompleted": true,
-      "userId": 10,
-      "id": 12
-    }
+ 
   ]
 }

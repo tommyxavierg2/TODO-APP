@@ -9,7 +9,8 @@
             <path url="/__/auth/callback" />
         </host>
     </universal-links>
-    <content original-src="index.html" src="http://192.168.1.44:8100" />
+    <content original-src="index.html" src="http://192.168.1.116:8100" />
+>>>>>>> master
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />

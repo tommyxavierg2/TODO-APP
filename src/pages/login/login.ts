@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController, MenuController } from 'ionic-angular';
+import { NavController, LoadingController, MenuController, ToastController } from 'ionic-angular';
 
 import { RegisterPage } from '../register/register';
 import { HomePage } from '../home/home';
@@ -14,6 +14,7 @@ axios.defaults.baseURL = 'https://of7anpsi.burrow.io/';
 })
 
 export class LoginPage {
+  message: string;
   newUserData: any;
   users: any;
   isLoggedIn: boolean;
@@ -43,7 +44,7 @@ export class LoginPage {
       sessionStorage.removeItem('newUserData');
   }
 
-  constructor(public navCtrl: NavController, public loadingCtrl: LoadingController, public menu: MenuController, private googlePlus: GooglePlus, private facebook: Facebook) {
+  constructor(public navCtrl: NavController, public loadingCtrl: LoadingController, public menu: MenuController, private googlePlus: GooglePlus, private facebook: Facebook, public toastCtrl: ToastController) {
     this.loginUser = { email: "", password: "", id: 0 };
     this.isLoggedIn= false;
   }
@@ -146,13 +147,16 @@ loginWithFacebook() {
     let isPasswordCorrect = this.users.some(user => this.loginUser.password == user.password);
 
     if(this.loginUser.email == "" || this.loginUser.password == "") {
-        alert("Please make sure all fields are properly filled");
+        this.message = "Please make sure all fields are properly filled";
+        this.presentToast();
 
     } else if (!isUserRegistered) {
-          alert(`The User: ${this.loginUser.email} is not registered, please verify it and try again.`);
+          this.message = `The User: ${this.loginUser.email} is not registered, please verify it and try again.`;
+          this.presentToast();
 
     } else if (!isPasswordCorrect) {
-          alert(`The password for user: ${this.loginUser.email} is not correct, please verify and try again.`);
+          this.message = `The password for user: ${this.loginUser.email} is not correct, please verify and try again.`;
+          this.presentToast();
 
     } else {
        this.presentLoadingDefault();
@@ -191,6 +195,15 @@ loginWithFacebook() {
     .then( res => {
       this.users = res.data;
     })
+  }
+
+  presentToast() {
+    let toast = this.toastCtrl.create({
+      message: this.message,
+      duration: 2000,
+      position: 'middle'
+    });
+    toast.present();
   }
 
 
