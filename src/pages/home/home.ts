@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController, MenuController } from 'ionic-angular';
+import { NavController, LoadingController, MenuController, ToastController } from 'ionic-angular';
 import axios from "axios"
-axios.defaults.baseURL = 'https://testing.burrow.io';
+axios.defaults.baseURL = 'https://of7anpsi.burrow.io/';
 
 @Component({
   selector: 'page-home',
@@ -9,6 +9,7 @@ axios.defaults.baseURL = 'https://testing.burrow.io';
 })
 
 export class HomePage {
+  message: string;
   userData: any;
   tasks: Array<{description: string, isCompleted: boolean, userId: number, id: number}>;
   newTask: {description: string, isCompleted: boolean};
@@ -27,7 +28,7 @@ export class HomePage {
        }
     }
 
-  constructor(public navCtrl: NavController, public loadingCtrl: LoadingController, public menuCtrl: MenuController) {
+  constructor(public navCtrl: NavController, public loadingCtrl: LoadingController, public menuCtrl: MenuController, public toastCtrl: ToastController) {
     this.tasks = [];
     this.newTask = { description: "", isCompleted: false };
     this.openMenu();
@@ -36,14 +37,16 @@ export class HomePage {
   updateTasks(index) {
     let temporaryTask = this.tasks[index];
     if(temporaryTask.description == "" || temporaryTask.description == "\n" || temporaryTask.description == "\n\n") {
-        alert("The task you're trying to update is empty please check if your changes have been written");
+        this.message = "The task you're trying to update is empty please check if your changes have been written";
+        this.present();
     } else {
         axios.put(`/tasks/${temporaryTask.id}`, {
                    description: temporaryTask.description,
                    isCompleted: temporaryTask.isCompleted,
                    userId: this.userData.id
                }).then(response => {
-                    alert("Task updated");
+                     this.message = "Task updated";
+                     this.present();
                }).catch(error => {
                   alert(`Task was not updated ${error}, please try again later`);
              });
@@ -68,16 +71,17 @@ export class HomePage {
                 userId: this.userData.id
               })
              .then(response => {
-                alert("Task added");
+                this.message = "Task added";
+                this.present();
                 this.newTask.description = "";
-                this.newTask.isCompleted = false;
                 this.getTasks();
              }).catch(error => {
                console.log(error);
           });
 
     } else {
-        alert("This task is already on the list, add a different one");
+          this.message = "Task already on the list, please add different one";
+          this.present();
       }
  }
 
@@ -85,7 +89,8 @@ export class HomePage {
     let taskIndex = this.tasks[index].id;
     this.tasks.splice(index, 1);
     axios.delete('/tasks/' + taskIndex ).then(response => {
-           alert("Task deleted");
+            this.message = "Task deleted";
+            this.presentToast();
         }).catch(error => {
            console.log(error);
         })
@@ -102,6 +107,15 @@ export class HomePage {
 
   openMenu() {
     this.menuCtrl.enable(true, 'menu-left');
+  }
+
+  presentToast() {
+    let toast = this.toastCtrl.create({
+      message: this.message,
+      duration: 2000,
+      position: 'top'
+    });
+    toast.present();
   }
 
 }

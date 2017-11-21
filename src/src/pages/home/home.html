@@ -1,0 +1,83 @@
+<ion-header>
+  <ion-toolbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      TODO App (Tasks: {{tasks.length}})
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content no-padding text-center>
+
+  <h3 *ngIf="inProgress(tasks)">Incompleted Tasks: ({{inProgress(tasks)}}) asasa</h3>
+  <ng-container *ngFor="let task of tasks; let i = index">
+      <ion-grid *ngIf="!task.isCompleted;">
+          <ion-row>
+            <ion-col col-2 col-sm-2>
+              <ion-item>
+                <ion-checkbox [(ngModel)]="task.isCompleted" (click)="updateTasks(i)"></ion-checkbox>
+              </ion-item>
+            </ion-col>
+              <ion-col col-8 col-sm-8>
+                <ion-item>
+                  <ion-textarea *ngIf="!task.isCompleted" [ngClass]="{'completed': task.isCompleted}" contenteditable="true"
+                                 [(ngModel)]="task.description" (keyup.enter)="updateTasks(i)">
+                 </ion-textarea>
+                </ion-item>
+              </ion-col>
+              <ion-col col-2 col-sm-2>
+                <ion-item>
+                  <button ion-button round color="danger" (click)="deleteTask(i)" title="Delete">X </button>
+                </ion-item>
+              </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ng-container>
+
+      <h3 text-center *ngIf="isCompleted(tasks)">Completed Tasks: ({{isCompleted(tasks)}}) </h3>
+      <ng-container *ngFor="let task of tasks; let i = index">
+         <ion-grid *ngIf="task.isCompleted" inset>
+           <ion-grid>
+             <ion-row>
+               <ion-col col-2 col-sm-2>
+                 <ion-item>
+                   <ion-checkbox [(ngModel)]="task.isCompleted" (click)="updateTasks(i)"></ion-checkbox>
+                 </ion-item>
+               </ion-col>
+               <ion-col col-8 col-sm-8>
+                 <ion-item>
+                   <ion-textarea [ngClass]="{'completed': task.isCompleted}" contenteditable="true"
+                   [(ngModel)]="task.description" (keyup.enter)="updateTasks(i)"
+                   >
+                 </ion-textarea>
+               </ion-item>
+             </ion-col>
+             <ion-col col-2 col-sm-2>
+               <ion-item>
+                 <button ion-button round color="danger" (click)="deleteTask(i)" title="Delete">X</button>
+               </ion-item>
+             </ion-col>
+           </ion-row>
+          </ion-grid>
+        </ion-grid>
+       </ng-container>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col col-9>
+           <ion-item>
+             <ion-label floating>Write a task</ion-label>
+             <ion-input type="text" [(ngModel)]="newTask.description" (keyup.enter)="addTask()"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col col-3>
+          <ion-item *ngIf="newTask.description" >
+            <button ion-button round name="submitBtn" (click)="addTask()">+</button>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+</ion-content>

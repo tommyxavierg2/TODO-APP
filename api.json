@@ -17,17 +17,6 @@
     }
   ],
   "tasks": [
-    {
-      "description": "Testing",
-      "isCompleted": false,
-      "userId": 10,
-      "id": 5
-    },
-    {
-      "description": "Testing a test",
-      "isCompleted": false,
-      "userId": 5,
-      "id": 6
-    }
+ 
   ]
 }

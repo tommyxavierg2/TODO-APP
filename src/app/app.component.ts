@@ -6,7 +6,9 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { GooglePlus } from '@ionic-native/google-plus';
 import firebase from 'firebase';
 import { LoginPage } from '../pages/login/login';
+import {TabsPage } from '../pages/tabs/tabs';
 import { Facebook } from '@ionic-native/facebook';
+import { HomePage } from '../pages/home/home';
 
 @Component({
   templateUrl: 'app.html'
@@ -14,9 +16,9 @@ import { Facebook } from '@ionic-native/facebook';
 
 export class MyApp {
   @ViewChild('content') navCtrl: NavController;
-  rootPage:any = LoginPage;
+  rootPage:any = TabsPage;
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private googlePlus: GooglePlus, private facebook: Facebook, public navCtrl: NavController) {
+  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private googlePlus: GooglePlus, private facebook: Facebook) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -32,7 +34,7 @@ export class MyApp {
        } else {
          this.logoutGoogle();
        }
-      })
+     })
   }
 
   logoutGoogle() {
@@ -55,11 +57,12 @@ export class MyApp {
      this.facebook.logout()
      .then( response => {
        alert("Hope to see you soon");
+       sessionStorage.removeItem('userData');
        this.navCtrl.pop();
      })
       .catch(err => {
         alert(("err"));
       });
-
    }
+
 }

@@ -7,13 +7,15 @@ import { MyApp } from './app.component';
 import axios from 'axios';
 import { IonicStorageModule } from '@ionic/storage';
 
-import { HomePage } from '../pages/home/home';
-import { LoginPage } from '../pages/login/login';
-import { RegisterPage } from '../pages/register/register';
 import { GooglePlus } from '@ionic-native/google-plus';
 import { AngularFireModule } from 'angularfire2';
 import firebase from 'firebase';
 import { Facebook } from '@ionic-native/facebook';
+
+import { HomePage } from '../pages/home/home';
+import { LoginPage } from '../pages/login/login';
+import { RegisterPage } from '../pages/register/register';
+import { TabsPage } from '../pages/tabs/tabs';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyA_1lUAhFwdp3MSvWSfZNqFuaFz2XXxL98",
@@ -30,7 +32,8 @@ firebase.initializeApp(firebaseConfig);
     MyApp,
     LoginPage,
     HomePage,
-    RegisterPage
+    RegisterPage,
+    TabsPage,
   ],
   imports: [
     BrowserModule,
@@ -44,6 +47,7 @@ firebase.initializeApp(firebaseConfig);
     LoginPage,
     HomePage,
     RegisterPage,
+    TabsPage,
   ],
   providers: [
     StatusBar,
