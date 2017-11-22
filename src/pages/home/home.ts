@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, LoadingController, MenuController, ToastController } from 'ionic-angular';
 import axios from "axios"
-axios.defaults.baseURL = 'https://of7anpsi.burrow.io/';
+axios.defaults.baseURL = 'https://c2es8ml4.burrow.io/';
 
 @Component({
   selector: 'page-home',
@@ -9,30 +9,64 @@ axios.defaults.baseURL = 'https://of7anpsi.burrow.io/';
 })
 
 export class HomePage {
+  offSet: number = 1;
   message: string;
   userData: any;
   tasks: Array<{description: string, isCompleted: boolean, userId: number, id: number}>;
+  info: any;
   newTask: {description: string, isCompleted: boolean};
 
   ionViewWillEnter() {
-    this.userData = JSON.parse(sessionStorage.getItem('userData'))[0];
+  /*  this.userData = JSON.parse(sessionStorage.getItem('userData'))[0];
     if(!this.userData) {
        alert("I'm sorry, but in order to review, update or delete your tasks you first need to be logged in, you'll be redirected to the login page");
        this.navCtrl.pop();
-     }
+     } */
   }
 
   ionViewDidEnter() {
-    if(this.userData){
+  /*  if(this.userData){
         this.getTasks();
-       }
+      } */
+        this.getTasks();
     }
 
   constructor(public navCtrl: NavController, public loadingCtrl: LoadingController, public menuCtrl: MenuController, public toastCtrl: ToastController) {
-    this.tasks = [];
+   this.tasks = [];
     this.newTask = { description: "", isCompleted: false };
     this.openMenu();
+
 }
+
+  doInfinite(infiniteScroll) {
+
+      setTimeout(() => {
+
+        let maximunTasks = 0;
+
+        if (this.tasks.length != maximunTasks) {
+
+          axios.get(`/tasks?userId=10&_page=${this.offSet}&_limit=5`)
+          .then(response => {
+            maximunTasks = response.headers['x-total-count'];
+            let data = response.data;
+            data.forEach(val => { this.tasks.push(val); })
+            this.offSet++;
+          }).catch(error => {
+            this.message =`Tasks error: ${error}, please try again later`;
+            this.presentToast();
+          });
+
+          infiniteScroll.complete();
+
+        } else {
+
+          infiniteScroll.enable(false);
+        }
+
+      }, 500);
+
+  }
 
   updateTasks(index) {
     let temporaryTask = this.tasks[index];
@@ -48,17 +82,21 @@ export class HomePage {
                      this.message = "Task updated";
                      this.present();
                }).catch(error => {
-                  alert(`Task was not updated ${error}, please try again later`);
+                 this.message = `Task was not updated ${error}, please try again later`;
+                 this.presentToast();
              });
          }
   }
 
   getTasks() {
-    axios.get(`/tasks?userId=${this.userData.id}`)
+    //axios.get(`/tasks?userId=${this.userData.id}&_limit`)
+    axios.get(`/tasks?userId=10&_page=${this.offSet}&_limit=5`)
             .then(response => {
                this.tasks = response.data;
+               this.offSet++;
            }).catch(error => {
-            alert(`Tasks error: ${error}, please try again later`);
+             this.message = `Tasks error: ${error}, please try again later`;
+             this.presentToast();
         });
     }
 
@@ -74,9 +112,11 @@ export class HomePage {
                 this.message = "Task added";
                 this.present();
                 this.newTask.description = "";
-                this.getTasks();
-             }).catch(error => {
-               console.log(error);
+                //this.getTasks();
+              })
+              .catch(error => {
+                 this.message = `Task was not updated ${error}, please try again later`;
+                 this.presentToast();
           });
 
     } else {
@@ -92,7 +132,8 @@ export class HomePage {
             this.message = "Task deleted";
             this.presentToast();
         }).catch(error => {
-           console.log(error);
+            this.message = error;
+            this.presentToast();
         })
   }
 

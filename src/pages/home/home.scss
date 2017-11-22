@@ -15,4 +15,32 @@ page-home {
     text-decoration: none;
   }
 
+  .background-color {
+    background: #EFF0F1;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+  }
+
+  ion-item {
+    border-bottom: 1px solid #E1E1E1;
+    border-top: 1px solid #E1E1E1;
+  }
+
+  button {
+     background: transparent;
+     color: none;
+     background-color: none;
+  }
+
+  ion-checkbox {
+    margin: 0;
+    padding: 0;
+  }
+
+
 }
