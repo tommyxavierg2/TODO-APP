@@ -16,7 +16,7 @@ import { HomePage } from '../pages/home/home';
 
 export class MyApp {
   @ViewChild('content') navCtrl: NavController;
-  rootPage:any = TabsPage;
+  rootPage:any = HomePage;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private googlePlus: GooglePlus, private facebook: Facebook) {
     platform.ready().then(() => {
