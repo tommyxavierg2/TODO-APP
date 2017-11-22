@@ -31,26 +31,15 @@ page-home {
     border-top: 1px solid #E1E1E1;
   }
 
-.item-checkBox{
-  ion-input.item-cover {
-      width: 15%;
-    }
-
-  ion-input{
-      width: 85%;
-      right: 0;
-      left: auto;
-  }
-
-}
-
-
-
-
   button {
      background: transparent;
      color: none;
      background-color: none;
+  }
+
+  ion-checkbox {
+    margin: 0;
+    padding: 0;
   }
 
 
