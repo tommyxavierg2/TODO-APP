@@ -16,6 +16,7 @@ import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { RegisterPage } from '../pages/register/register';
 import { TabsPage } from '../pages/tabs/tabs';
+import { ChartPage } from '../pages/chart/chart';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyA_1lUAhFwdp3MSvWSfZNqFuaFz2XXxL98",
@@ -34,6 +35,7 @@ firebase.initializeApp(firebaseConfig);
     HomePage,
     RegisterPage,
     TabsPage,
+    ChartPage,
   ],
   imports: [
     BrowserModule,
@@ -48,6 +50,7 @@ firebase.initializeApp(firebaseConfig);
     HomePage,
     RegisterPage,
     TabsPage,
+    ChartPage,
   ],
   providers: [
     StatusBar,

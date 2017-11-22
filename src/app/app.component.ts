@@ -9,6 +9,7 @@ import { LoginPage } from '../pages/login/login';
 import {TabsPage } from '../pages/tabs/tabs';
 import { Facebook } from '@ionic-native/facebook';
 import { HomePage } from '../pages/home/home';
+import { ChartPage } from '../pages/chart/chart';
 
 @Component({
   templateUrl: 'app.html'
@@ -16,7 +17,8 @@ import { HomePage } from '../pages/home/home';
 
 export class MyApp {
   @ViewChild('content') navCtrl: NavController;
-  rootPage:any = TabsPage;
+  rootPage:any = ChartPage;
+  message: any;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private googlePlus: GooglePlus, private facebook: Facebook) {
     platform.ready().then(() => {
@@ -41,28 +43,41 @@ export class MyApp {
     this.googlePlus.logout().then(res=> {
       firebase.auth().signOut()
           .then(res => {
-            alert("Hope to see you soon!");
+            this.message = "Hope to see you soon!";
+            this.presentToast();
             sessionStorage.removeItem('userData');
             this.navCtrl.setRoot(LoginPage);
         }).catch( firebaseErr => {
-            alert(firebaseErr);
+            this.message = `${firebaseErr}`;
+            this.presentToast();
+            alert();
         });
 
     }).catch(googlePlusErr => {
-       alert(googlePlusErr);
+        this.message = `${googlePlusErr}`;
     });
   }
 
    logoutFacebook() {
      this.facebook.logout()
      .then( response => {
-       alert("Hope to see you soon");
+       this.message = "Hope to see you soon";
+       this.presentToast();
        sessionStorage.removeItem('userData');
        this.navCtrl.pop();
      })
       .catch(err => {
         alert(("err"));
       });
+   }
+
+   presentToast() {
+     let toast = this.toastCtrl.create({
+       message: this.message,
+       duration: 2000,
+       position: 'bottom'
+     });
+     toast.present();
    }
 
 }

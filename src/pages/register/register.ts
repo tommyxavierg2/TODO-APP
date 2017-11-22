@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Component } from '@angular/core';
 import { LoadingController, NavController, ToastController } from 'ionic-angular';
-axios.defaults.baseURL = 'https://of7anpsi.burrow.io/';
+axios.defaults.baseURL = 'https://t6ovbruo.burrow.io/';
 
 @Component({
   templateUrl: 'register.html'
@@ -50,16 +50,20 @@ export class RegisterPage {
                      this.newUser = { email: "", password: "", confirmPassword: "" }
                      this.navCtrl.parent.select(0);
                  }).catch(error => {
-                    console.log(error);
+                     this.message = error;
+                     this.presentToast();
              });
       }
   }
 
   getUsers() {
-    axios.get('/users').then(response => {
+    axios.get('/users')
+          .then(response => {
             this.users = response.data;
-          }).catch(erorr => {
-            console.log(erorr);
+          })
+          .catch(erorr => {
+            this.message = error;
+            this.presentToast();
         });
     }
 
@@ -79,7 +83,7 @@ export class RegisterPage {
     let toast = this.toastCtrl.create({
       message: this.message,
       duration: 2000,
-      position: 'middle'
+      position: 'bottom'
     });
     toast.present();
   }
