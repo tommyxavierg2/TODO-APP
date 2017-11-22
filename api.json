@@ -9,12 +9,7 @@
       "email": "Jhon@gmail.com",
       "password": "123456789",
       "id": 7
-    },
-    {
-      "email": "20153188@itla.edu.do",
-      "uid": "IrSQemQ72lOqkDrTM495K7KPcfJ3",
-      "id": 9
-    },
+    }
     {
       "email": "tommyxavierg@gmail.com",
       "username": "Tommy Xavier Gomez Garcia",
@@ -22,6 +17,7 @@
     }
   ],
   "tasks": [
+
     {
       "description": "Testing 4",
       "isCompleted": true,

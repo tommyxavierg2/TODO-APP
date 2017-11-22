@@ -154,6 +154,7 @@ loginWithFacebook() {
     let isPasswordCorrect = this.users.some(user => this.loginUser.password == user.password);
 
     if(!this.loginUser.email || !this.loginUser.password) {
+      
         this.message = "Please make sure all fields are properly filled";
         this.presentToast();
 

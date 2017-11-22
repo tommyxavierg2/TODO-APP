@@ -72,7 +72,7 @@ export class HomePage {
     let temporaryTask = this.tasks[index];
     if(temporaryTask.description == "" || temporaryTask.description == "\n" || temporaryTask.description == "\n\n") {
         this.message = "The task you're trying to update is empty please check if your changes have been written";
-        this.presentToast();
+        this.present();
     } else {
         axios.put(`/tasks/${temporaryTask.id}`, {
                    description: temporaryTask.description,
@@ -80,7 +80,7 @@ export class HomePage {
                    userId: this.userData.id
                }).then(response => {
                      this.message = "Task updated";
-                     this.presentToast();
+                     this.present();
                }).catch(error => {
                  this.message = `Task was not updated ${error}, please try again later`;
                  this.presentToast();
@@ -110,7 +110,7 @@ export class HomePage {
               })
              .then(response => {
                 this.message = "Task added";
-                this.presentToast();
+                this.present();
                 this.newTask.description = "";
                 //this.getTasks();
               })
@@ -121,7 +121,7 @@ export class HomePage {
 
     } else {
           this.message = "Task already on the list, please add different one";
-          this.presentToast();
+          this.present();
       }
  }
 

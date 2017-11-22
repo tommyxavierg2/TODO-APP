@@ -1,0 +1,46 @@
+<ion-header>
+    <ion-toolbar no-border>
+      <ion-title>TODO App</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content no-padding text-center>
+   <h1>Login </h1>
+
+ <ion-list *ngIf="!isLoggedIn">
+    <ion-item>
+      <ion-label floating>email</ion-label>
+      <ion-input type="text" [(ngModel)]="loginUser.email" name="email"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>password</ion-label>
+      <ion-input type="password" [(ngModel)]="loginUser.password" name="userPassword"></ion-input>
+    </ion-item>
+      <button ion-button block color="secondary" (click)="loginWithEmail()">Log In</button>
+
+ </ion-list>
+
+  <h3>Connect with</h3>
+
+  <ion-list>
+     <ion-row>
+       <ion-col col-6>
+         <button ion-button block icon-right color="danger" (click)="loginWithGoogle()" *ngIf="!userProfile">
+              Google
+             <ion-icon name="logo-googleplus"></ion-icon>
+        </button>
+      </ion-col>
+      <ion-col col-6>
+        <button ion-button block icon-right (click)="loginWithFacebook()">
+             Facebook
+          <ion-icon name="logo-facebook"></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-list>
+
+  <h3>New here?</h3>
+  <button ion-button  block color="light" (click)="goToRegisterPage()">Create account</button>
+
+</ion-content>
