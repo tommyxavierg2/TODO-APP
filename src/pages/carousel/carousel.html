@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      TODO App
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content no-padding>
+
+  <ion-slides (ionSlidesDidChange)="slideChanged()" centerSlides="true" pager="true">
+
+    <ion-slide *ngFor="let image of images">
+      <p>{{image.name}}</p>
+      <ion-img src="{{image.url}}" alt="" width="300" height="300"> </ion-img>
+    </ion-slide>
+
+  </ion-slides>
+
+</ion-content>

@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, ToastController } from 'ionic-angular';
+import { ToastController } from 'ionic-angular';
 
 import { Chart } from 'chart.js';
 import axios from "axios"
@@ -23,8 +23,9 @@ export class ChartPage {
     Promise.all([this.getUsers(), this.getTasks()]).then(() => {
       this.showCharts();
     }).catch(error => {
-
-    })
+      this.message = error;
+      this.presentToast();
+    });
   }
 
   showCharts() {
@@ -32,15 +33,15 @@ export class ChartPage {
     var totalUsers = this.users.length;
     var totalTasks = this.tasks.length;
     var totalCompletedTasks = this.tasks.filter(task => task.isCompleted == false);
-    var totalIncompletedTasks = this.tasks.filter(task => task.isCompleted == true);
+    var totalIncompletedTasks = this.tasks.filter(task => task.isCompleted != false);
 
     this.barChart = new Chart(this.barCanvas.nativeElement, {
 
-      type: 'bar',
+      type: 'horizontalBar',
       data: {
           labels: ["Users", "Tasks", "Completed tasks", "Incompleted tasks"],
           datasets: [{
-             label: "",
+            label: 'Users and tasks totals',
               data: [totalUsers, totalTasks, totalIncompletedTasks.length, totalCompletedTasks.length],
               backgroundColor: [
                    'rgba(255, 99, 132, 0.2)',

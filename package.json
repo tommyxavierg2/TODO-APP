@@ -35,6 +35,7 @@
     "cordova-plugin-browsertab": "^0.2.0",
     "cordova-plugin-buildinfo": "^2.0.1",
     "cordova-plugin-compat": "^1.2.0",
+    "cordova-plugin-console": "^1.1.0",
     "cordova-plugin-device": "^1.1.7",
     "cordova-plugin-facebook4": "^1.9.1",
     "cordova-plugin-firebase": "^0.1.24",
@@ -80,7 +81,8 @@
       "cordova-plugin-facebook4": {
         "APP_ID": "130461421004412",
         "APP_NAME": "TODOAPP"
-      }
+      },
+      "cordova-plugin-console": {}
     },
     "platforms": [
       "android"

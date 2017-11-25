@@ -16,7 +16,7 @@
    <div *ngFor="let task of tasks; let i = index">
      <ion-item *ngIf="!task.isCompleted;" text-wrap>
        <ion-checkbox item-left [(ngModel)]="task.isCompleted" (click)="updateTasks(i)"></ion-checkbox>
-        <ion-input *ngIf="!task.isCompleted" [ngClass]="{'completed': task.isCompleted}" (keyup.enter)="updateTasks(i, task.description)"
+        <ion-input *ngIf="!task.isCompleted" [ngClass]="{'completed': task.isCompleted}" (keyup.enter)="updateTasks(i)"
                     value="{{task.description}}">
         </ion-input>
         <button ion-button clear="true" color="dark" item-right (click)="deleteTask(i)" title="Delete">
@@ -47,7 +47,7 @@
     </button>
  </ion-item>
 
- <ion-infinite-scroll (ionInfinite)="doInfinite($event)" threshold="90%" position="top">
+ <ion-infinite-scroll (ionInfinite)="doInfinite($event)" threshold="25%">
    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading tasks..."></ion-infinite-scroll-content>
  </ion-infinite-scroll>
 

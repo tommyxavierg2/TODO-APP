@@ -10,6 +10,7 @@ axios.defaults.baseURL = 'https://t6ovbruo.burrow.io/';
 
 export class HomePage {
   offSet: number = 1;
+  maximunTasks: number = 0;
   message: string;
   userData: any;
   updateTaskData: string;
@@ -17,18 +18,17 @@ export class HomePage {
   newTask: {description: string, isCompleted: boolean};
 
   ionViewWillEnter() {
-  /*  this.userData = JSON.parse(sessionStorage.getItem('userData'))[0];
+    this.userData = JSON.parse(sessionStorage.getItem('userData'))[0];
     if(!this.userData) {
        alert("I'm sorry, but in order to review, update or delete your tasks you first need to be logged in, you'll be redirected to the login page");
        this.navCtrl.pop();
-     } */
+     }
   }
 
   ionViewDidEnter() {
-  /*  if(this.userData){
+    if(this.userData){
         this.getTasks();
-      } */
-        this.getTasks();
+      }
     }
 
   constructor(public navCtrl: NavController, public loadingCtrl: LoadingController, public menuCtrl: MenuController, public toastCtrl: ToastController) {
@@ -43,20 +43,22 @@ export class HomePage {
 
       setTimeout(() => {
 
-        let maximunTasks = 0;
+        if (this.tasks.length != this.maximunTasks) {
 
-        if (this.tasks.length != maximunTasks) {
+            axios.get(`/tasks?userId=${this.userData.id}&_page=${this.offSet}&_limit=5`)
+            .then(response => {
+                let data = response.data;
 
-          axios.get(`/tasks?userId=10&_page=${this.offSet}&_limit=5`)
-          .then(response => {
-              maximunTasks = response.headers['x-total-count'];
-              let data = response.data;
-              data.forEach(val => { this.tasks.push(val); })
-              this.offSet++;
-          }).catch(error => {
-              this.message =`Tasks error: ${error}, please try again later`;
-              this.presentToast();
-          });
+                data.forEach(val => {
+                    this.tasks.push(val);
+                })
+
+                this.offSet++;
+
+            }).catch(error => {
+                this.message =`Tasks error: ${error}, please try again later`;
+                this.presentToast();
+            });
 
           infiniteScroll.complete();
 
@@ -69,20 +71,20 @@ export class HomePage {
 
   }
 
-  updateTasks(index, descriptionUpdate) {
-
-    alert(descriptionUpdate);
+  updateTasks(index) {
     let currentTask = this.tasks[index];
-  /*  if(!currentTask.description) {
+
+    if(!currentTask.description) {
         this.message = "The task you're trying to update is empty please check if your changes have been written";
         this.presentToast();
-    } else {
-        axios.put(`/tasks/${currentTask.id}`, {
-                   description: description,
+          alert(currentTask.description);
+    } else { }
+
+    /*    axios.put(`/tasks/${currentTask.id}`, {
+                   description: currentTask.description,
                    isCompleted: currentTask.isCompleted,
-                   userId: 10
+                   userId: this.userData.id
                }).then(response => {
-                     alert(JSON.stringify(response.data));
                      this.message = "Task updated";
                      this.presentToast();
                }).catch(error => {
@@ -93,35 +95,34 @@ export class HomePage {
   }
 
   getTasks() {
-    //axios.get(`/tasks?userId=${this.userData.id}&_limit`)
-    axios.get(`/tasks?userId=10&_page=${this.offSet}&_limit=5`)
+    axios.get(`/tasks?userId=${this.userData.id}&_page=${this.offSet}&_limit=5`)
             .then(response => {
                this.tasks = response.data;
+               this.maximunTasks = response.headers['x-total-count'];
                this.offSet++;
            }).catch(error => {
                this.message = `Tasks error: ${error}, please try again later`;
                this.presentToast();
-        });
+           });
     }
 
   addTask() {
     let isDuplicated = this.tasks.some(task => this.newTask.description == task.description);
+
     if(!isDuplicated) {
         axios.post('/tasks', {
                 description: this.newTask.description,
                 isCompleted: this.newTask.isCompleted,
-                userId: 10
-              })
-             .then(response => {
-                this.message = "Task added";
-                this.presentToast();
-                this.newTask.description = "";
-                //this.getTasks();
-              })
-              .catch(error => {
-                 this.message = `Task was not updated ${error}, please try again later`;
-                 this.presentToast();
-          });
+                userId: this.userData.id
+              }).then(response => {
+                  this.message = "Task added";
+                  this.presentToast();
+                  this.getTasks();
+                  this.newTask.description = "";
+              }).catch(error => {
+                  this.message = `Task was not updated ${error}, please try again later`;
+                  this.presentToast();
+              });
 
     } else {
           this.message = "Task already on the list, please add different one";

@@ -1,6 +1,22 @@
 page-home {
-  input {
+  ion-input {
     text-decoration: none;
+    width: inherit;
+  }
+
+  .item-cover {
+    border-bottom: 1px solid #E1E1E1;
+    border-top: 1px solid #E1E1E1;
+  }
+
+  div.input-cover {
+    left: 8%;
+    right: 8%;
+    width: 84%;
+  }
+
+  div.input-wrapper {
+    width: 100%;
   }
 
   #newTask {
@@ -26,9 +42,25 @@ page-home {
     justify-content: center;
   }
 
-  ion-item {
-    border-bottom: 1px solid #E1E1E1;
-    border-top: 1px solid #E1E1E1;
+  ion-item-md .checkbox-md {
+    margin: 0px, 0px, 0px, 0px;
+  }
+
+  .item.item-md .checkbox-md {
+    margin: 9px;
+  }
+
+  .item-md {
+    padding-left: 0px;
+  }
+
+  .item-md.item-block .item-inner {
+    padding-right: 0px;
+  }
+
+  .text-input-md {
+    margin: 0px, 0px;
+    width: 100%;
   }
 
   button {

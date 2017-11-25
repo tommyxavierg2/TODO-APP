@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
-import { IonicApp, IonicErrorHandler, IonicModule, NavController } from 'ionic-angular';
+import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { MyApp } from './app.component';
@@ -9,14 +9,17 @@ import { IonicStorageModule } from '@ionic/storage';
 
 import { GooglePlus } from '@ionic-native/google-plus';
 import { AngularFireModule } from 'angularfire2';
+import { AngularFireAuthModule } from 'angularfire2/auth';
 import firebase from 'firebase';
 import { Facebook } from '@ionic-native/facebook';
 
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { RegisterPage } from '../pages/register/register';
-import { TabsPage } from '../pages/tabs/tabs';
+import { LoginRegisterTabsPage } from '../pages/login-register-tabs/login-register-tabs';
 import { ChartPage } from '../pages/chart/chart';
+import { CarouselPage } from '../pages/carousel/carousel';
+import { HomeChartTabsPage } from '../pages/home-chart-tabs/home-chart-tabs';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyA_1lUAhFwdp3MSvWSfZNqFuaFz2XXxL98",
@@ -34,14 +37,17 @@ firebase.initializeApp(firebaseConfig);
     LoginPage,
     HomePage,
     RegisterPage,
-    TabsPage,
     ChartPage,
+    CarouselPage,
+    LoginRegisterTabsPage,
+    HomeChartTabsPage,
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
     IonicStorageModule.forRoot(),
-    AngularFireModule.initializeApp(firebaseConfig)
+    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireAuthModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -49,15 +55,16 @@ firebase.initializeApp(firebaseConfig);
     LoginPage,
     HomePage,
     RegisterPage,
-    TabsPage,
     ChartPage,
+    CarouselPage,
+    LoginRegisterTabsPage,
+    HomeChartTabsPage,
   ],
   providers: [
     StatusBar,
     SplashScreen,
     GooglePlus,
     Facebook,
-    NavController,
     {
       provide: ErrorHandler,
       useValue: axios,
