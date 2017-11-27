@@ -1,16 +1,6 @@
 {
   "users": [
     {
-      "email": "toxago@gmail.com",
-      "password": "12345678",
-      "id": 5
-    },
-    {
-      "email": "Jhon@gmail.com",
-      "password": "123456789",
-      "id": 7
-    },
-    {
       "email": "tommyxavierg@gmail.com",
       "username": "Tommy Xavier Gomez Garcia",
       "id": 10
@@ -21,11 +11,6 @@
       "id": 14
     },
     {
-      "email": "testing@testing.com",
-      "password": "qweasd",
-      "id": 15
-    },
-    {
       "email": "dannyfeliz@gmail.com",
       "password": "123456",
       "id": 16
@@ -33,58 +18,106 @@
   ],
   "tasks": [
     {
-      "description": "rfscvfc",
-      "isCompleted": false,
-      "userId": 14,
-      "id": 4
-    },
-    {
-      "description": "sadasdas",
-      "isCompleted": false,
-      "userId": 15,
-      "id": 7
-    },
-    {
-      "description": "sdfgytrwedfgkoi7",
-      "isCompleted": false,
-      "userId": 14,
-      "id": 8
-    },
-    {
-      "description": "asdasdasdas",
-      "isCompleted": false,
-      "userId": 14,
-      "id": 9
-    },
-    {
-      "description": "asdfghjk",
-      "isCompleted": false,
-      "userId": 14,
-      "id": 10
-    },
-    {
-      "description": "gjhbn,m",
-      "isCompleted": false,
-      "userId": 14,
-      "id": 11
-    },
-    {
-      "description": "bhjjhbkjn",
-      "isCompleted": false,
+      "description": "Task 1 updated",
+      "isCompleted": true,
       "userId": 14,
       "id": 12
     },
     {
-      "description": "gvjhbknghj",
+      "description": "Google test updated ",
       "isCompleted": false,
-      "userId": 14,
-      "id": 13
+      "userId": 10,
+      "id": 15
     },
     {
-      "description": "hkjghkjh",
+      "description": "Google test updated 1",
+      "isCompleted": false,
+      "userId": 10,
+      "id": 16
+    },
+    {
+      "description": "Task 4 updated",
+      "isCompleted": true,
+      "userId": 14,
+      "id": 17
+    },
+    {
+      "description": "Task 5",
+      "isCompleted": true,
+      "userId": 14,
+      "id": 18
+    },
+    {
+      "description": "Task 6",
       "isCompleted": false,
       "userId": 14,
-      "id": 14
+      "id": 18
+    },
+    {
+      "description": "Google test updated 2",
+      "isCompleted": true,
+      "userId": 10,
+      "id": 20
+    },
+    {
+      "description": "Task 9",
+      "isCompleted": false,
+      "userId": 14,
+      "id": 22
+    },
+    {
+      "description": "Task 10",
+      "isCompleted": false,
+      "userId": 14,
+      "id": 23
+    },
+    {
+      "description": "Task 11",
+      "isCompleted": false,
+      "userId": 14,
+      "id": 24
+    },
+    {
+      "description": "Task 12",
+      "isCompleted": false,
+      "userId": 14,
+      "id": 25
+    },
+    {
+      "description": "Task 13",
+      "isCompleted": false,
+      "userId": 14,
+      "id": 26
+    },
+    {
+      "description": "Task 14",
+      "isCompleted": false,
+      "userId": 14,
+      "id": 27
+    },
+    {
+      "description": "Task 15",
+      "isCompleted": false,
+      "userId": 14,
+      "id": 28
+    },
+    {
+      "description": "Task 16",
+      "isCompleted": false,
+      "userId": 14,
+      "id": 29
+    },
+    {
+      "description": "Facebook test 2",
+      "isCompleted": true,
+      "userId": 10,
+      "id": 33
+    },
+    {
+      "description": "Facebook test 1",
+      "isCompleted": true,
+      "userId": 10,
+      "id": 34
     }
   ]
 }

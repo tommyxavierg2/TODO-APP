@@ -16,11 +16,13 @@ export class ChartPage {
   barChart: any;
   doughnutChart: any;
   message: any;
+  userData: any;
+  userTasks: any;
   users: any;
   tasks: any;
 
   constructor(public toastCtrl: ToastController) {
-    Promise.all([this.getUsers(), this.getTasks()]).then(() => {
+    Promise.all([this.getUsers(), this.getTasks(), this.loadUserData()]).then(() => {
       this.showCharts();
     }).catch(error => {
       this.message = error;
@@ -30,10 +32,39 @@ export class ChartPage {
 
   showCharts() {
 
-    var totalUsers = this.users.length;
-    var totalTasks = this.tasks.length;
-    var totalCompletedTasks = this.tasks.filter(task => task.isCompleted == false);
-    var totalIncompletedTasks = this.tasks.filter(task => task.isCompleted != false);
+    let totalUsers = this.users.length;
+    let totalTasks = this.tasks.length;
+    let totalCompletedTasks = this.tasks.filter(task => task.isCompleted == false);
+    let totalIncompletedTasks = this.tasks.filter(task => task.isCompleted != false);
+
+    this.userTasks = this.tasks.filter(task => task.userId == this.userData.id);
+
+    let myTotalTasks = this.userTasks.length;
+    let myTotalCompletedTasks = this.userTasks.filter(task => task.isCompleted == false);
+    let myTotalIncompletedTasks = this.userTasks.filter(task => task.isCompleted != false);
+
+    this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
+
+        type: 'doughnut',
+        data: {
+          labels: ["Tasks", "Completed tasks", "Incompleted tasks"],
+          datasets: [{
+            data: [myTotalTasks, myTotalCompletedTasks.length, myTotalIncompletedTasks.length],
+            backgroundColor: [
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(255, 206, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)'
+            ],
+            hoverBackgroundColor: [
+              "#FF6384",
+              "#36A2EB",
+              "#FFCE56",
+              "#FF6384"
+            ]
+          }]
+        }
+      });
 
     this.barChart = new Chart(this.barCanvas.nativeElement, {
 
@@ -69,29 +100,10 @@ export class ChartPage {
           }
         });
 
-    this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
+  }
 
-        type: 'doughnut',
-        data: {
-          labels: ["Users", "Tasks", "Completed tasks", "Incompleted tasks"],
-          datasets: [{
-            data: [totalUsers, totalTasks, totalIncompletedTasks.length, totalCompletedTasks.length],
-            backgroundColor: [
-              'rgba(255, 99, 132, 0.2)',
-              'rgba(54, 162, 235, 0.2)',
-              'rgba(255, 206, 86, 0.2)',
-              'rgba(75, 192, 192, 0.2)'
-            ],
-            hoverBackgroundColor: [
-              "#FF6384",
-              "#36A2EB",
-              "#FFCE56",
-              "#FF6384"
-            ]
-          }]
-        }
-      });
-
+  loadUserData() {
+    this.userData = JSON.parse(localStorage.getItem('userData'))[0];
   }
 
     getUsers() {

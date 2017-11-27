@@ -50,7 +50,6 @@ export class RegisterPage {
                      this.presentToast();
                      sessionStorage.setItem('newUserData', JSON.stringify(axiosResponse.data));
                      this.newUser = { email: "", password: "", confirmPassword: "" }
-                     this.presentLoadingDefault();
                      this.navCtrl.parent.select(1);
                  }).catch(error => {
                      this.message = error;
@@ -73,18 +72,6 @@ export class RegisterPage {
             this.presentToast();
         });
     }
-
-    presentLoadingDefault() {
-      let loading = this.loadingCtrl.create({
-        content: "Redirecting to the login page..."
-      });
-
-      loading.present();
-
-      setTimeout(() => {
-          loading.dismiss();
-      }, 3000);
-  }
 
   presentToast() {
     let toast = this.toastCtrl.create({

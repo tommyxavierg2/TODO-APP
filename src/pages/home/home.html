@@ -17,7 +17,7 @@
      <ion-item *ngIf="!task.isCompleted;" text-wrap>
        <ion-checkbox item-left [(ngModel)]="task.isCompleted" (click)="updateTasks(i)"></ion-checkbox>
         <ion-input *ngIf="!task.isCompleted" [ngClass]="{'completed': task.isCompleted}" (keyup.enter)="updateTasks(i)"
-                    value="{{task.description}}">
+                    [(ngModel)]="task.description">
         </ion-input>
         <button ion-button clear="true" color="dark" item-right (click)="deleteTask(i)" title="Delete">
             <ion-icon name="close"></ion-icon>
@@ -31,13 +31,13 @@
      <ion-item *ngIf="task.isCompleted" text-wrap>
        <ion-checkbox item-left [(ngModel)]="task.isCompleted" (click)="updateTasks(i)"></ion-checkbox>
        <ion-input *ngIf="task.isCompleted" [ngClass]="{'completed': task.isCompleted}"
-                   (keyup.enter)="updateTasks(i, task.description)" value="{{task.description}}" >
+                   (keyup.enter)="updateTasks(i)" [(ngModel)]="task.description" >
        </ion-input>
        <button ion-button clear="true" color="dark" item-right (click)="deleteTask(i)" title="Delete">
            <ion-icon name="close"></ion-icon>
        </button>
    </ion-item>
-  </div>
+ </div> <br>
 
   <ion-item #newTaskIonItem>
     <ion-label floating>Write a task</ion-label>

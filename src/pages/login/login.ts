@@ -27,19 +27,16 @@ export class LoginPage {
 
   ionViewWillEnter() {
     this.newUserData = JSON.parse(sessionStorage.getItem('newUserData'));
-    this.userData = JSON.parse(sessionStorage.getItem('userData'));
+    this.userData = JSON.parse(localStorage.getItem('userData'));
 
     if(this.userData) {
         this.goToHomePage(this.userData);
       }
 
      else if(this.newUserData) {
-           axios.get(`/users?email=${this.newUserData.email}`)
-            .then(res => {
-                this.newUserData = {email: "", pasword: "", id: null};
-                sessionStorage.removeItem('newUserData');
-                this.goToHomePage(res.data);
-             });
+        this.goToHomePage(this.newUserData);
+        this.newUserData = {email: "", pasword: "", id: null};
+        sessionStorage.removeItem('newUserData');
       }
 
      else {
@@ -51,7 +48,6 @@ export class LoginPage {
   ionViewDidLeave() {
       this.loginUser = { email: "", password: "", id: null };
       this.menu.enable(true);
-      sessionStorage.removeItem('newUserData');
   }
 
   constructor(public navCtrl: NavController, public loadingCtrl: LoadingController, public menu: MenuController, private googlePlus: GooglePlus, private facebook: Facebook, public toastCtrl: ToastController) {
@@ -97,6 +93,7 @@ export class LoginPage {
                } else {
                  axios.get(`/users?=${this.googleUserData.email}`)
                  .then(res => {
+                   this.isLoggedIn = true;
                    this.goToHomePage(res.data);
                  })
                }
@@ -181,11 +178,10 @@ loginWithFacebook() {
        this.presentLoadingDefault();
        axios.get(`/users?email=${this.loginUser.email}&password=${this.loginUser.password}`)
         .then(response => {
-           this.isLoggedIn = true;
            this.loginUser = { email: "", password: "", id: null };
+           this.isLoggedIn = true;
            this.goToHomePage(response.data);
-        })
-        .catch(error => {
+        }).catch(error => {
            this.message = `Error: ${error}`;
            this.presentToast();
         });
@@ -206,7 +202,7 @@ loginWithFacebook() {
   }
 
   goToHomePage(data: any) {
-    sessionStorage.setItem('userData', JSON.stringify(data));
+    localStorage.setItem('userData', JSON.stringify(data));
     this.navCtrl.push(HomeChartTabsPage);
   }
 

@@ -15,7 +15,9 @@ import { LoginRegisterTabsPage } from '../pages/login-register-tabs/login-regist
 
 export class MyApp {
   @ViewChild('content') navCtrl: NavController;
+
   rootPage:any = LoginRegisterTabsPage;
+  userData: any;
   message: any;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private googlePlus: GooglePlus, private facebook: Facebook, private toastCtrl: ToastController) {
@@ -28,57 +30,29 @@ export class MyApp {
   }
 
   logout() {
-
-    this.logoutEmail();
-    /*this.facebook.getLoginStatus(response => {
-      if(response.status === "connected") {
-           this.logoutFacebook();
-       }
-     });
-
-     if () */
-  }
-
-  logoutGoogle() {
-    this.googlePlus.logout().then(res=> {
-      firebase.auth().signOut()
-          .then(res => {
-            this.message = "Hope to see you soon!";
-            this.presentToast();
-            sessionStorage.removeItem('userData');
-            this.navCtrl.setRoot(LoginRegisterTabsPage);
-        }).catch( firebaseErr => {
-            this.message = firebaseErr;
-            this.presentToast();
-        });
-
-    }).catch(googlePlusErr => {
-        this.message = googlePlusErr;
-        this.presentToast();
+    Promise.all([this.logoutGoogleAndEmail()]).then(response => {})
+    .catch(err => {
+      this.logoutFacebook();
     });
   }
 
-   logoutFacebook() {
-     this.facebook.logout()
-     .then( response => {
-       this.message = "Hope to see you soon";
-       this.presentToast();
-       sessionStorage.removeItem('userData');
-       this.navCtrl.setRoot(LoginRegisterTabsPage);
-     })
-      .catch(err => {
-        this.message = err;
-        this.presentToast();
-      });
-   }
+  logoutGoogleAndEmail() {
+    localStorage.removeItem('userData');
+    this.message = "Hope to see you soon!";
+    this.presentToast();
+    this.navCtrl.setRoot(LoginRegisterTabsPage);
+    this.googlePlus.logout().then(res=> {
+      firebase.auth().signOut().then(res => {
+    });
+  });
+}
 
-   logoutEmail() {
-     firebase.auth().onAuthStateChanged(user => {
-         this.message = "Hope to see you soon";
-         this.presentToast();
-         sessionStorage.removeItem('userData');
-         this.navCtrl.setRoot(LoginRegisterTabsPage);
-     });
+   logoutFacebook() {
+     this.facebook.logout();
+     localStorage.removeItem('userData');
+     this.message = "Hope to see you soon!";
+     this.presentToast();
+     this.navCtrl.setRoot(LoginRegisterTabsPage);
    }
 
    presentToast() {

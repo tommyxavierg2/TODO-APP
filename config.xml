@@ -115,4 +115,5 @@
         <variable name="APP_NAME" value="TODOAPP" />
     </plugin>
     <plugin name="cordova-plugin-console" spec="^1.1.0" />
+    <allow-navigation href="http://192.168.1.255:8100" />
 </widget>

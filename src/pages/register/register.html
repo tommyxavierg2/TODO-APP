@@ -1,36 +1,31 @@
 <ion-header>
-    <ion-navbar>
-      <ion-toolbar no-border>
-        <ion-title>TODO App</ion-title>
-      </ion-toolbar>
-    </ion-navbar>
-  </ion-header>
+  <ion-toolbar no-border>
+    <ion-title>TODO App</ion-title>
+  </ion-toolbar>
+</ion-header>
 
-  <ion-content padding text-center>
-    <h1>Register</h1>
+<ion-content padding text-center>
+  <h1>Register</h1>
 
-      <div>
-       <ion-item>
-         <ion-label floating>Email</ion-label>
-          <ion-input type="email" [(ngModel)]="newUser.email" name="email" required></ion-input>
-       </ion-item>
-     </div>
-     <div>
-      <ion-item>
-        <ion-label floating>Password</ion-label>
-        <ion-input type="password" [(ngModel)]="newUser.password" name="password"></ion-input>
-      </ion-item>
-    </div>
     <div>
      <ion-item>
-       <ion-label floating>Confirm password</ion-label>
-       <ion-input type="password" [(ngModel)]="newUser.confirmPassword" name="confirmPassword" (keyup.enter)="registerNewUser()"></ion-input>
+       <ion-label floating>Email</ion-label>
+        <ion-input type="email" [(ngModel)]="newUser.email" name="email" required></ion-input>
      </ion-item>
    </div>
-      <ion-item>
-        <ion-buttons end>
-          <button ion-button block color="primary" (click)="registerNewUser()">Register</button>
-        </ion-buttons>
-      </ion-item>
+   <div>
+    <ion-item>
+      <ion-label floating>Password</ion-label>
+      <ion-input type="password" [(ngModel)]="newUser.password" name="password"></ion-input>
+    </ion-item>
+  </div>
+  <div>
+   <ion-item>
+     <ion-label floating>Confirm password</ion-label>
+     <ion-input type="password" [(ngModel)]="newUser.confirmPassword" name="confirmPassword" (keyup.enter)="registerNewUser()"></ion-input>
+   </ion-item>
+ </div> <br>
 
-  </ion-content>
+  <button ion-button block color="primary" (keyup.enter)="registerNewUser()" (click)="registerNewUser()">Register</button>
+
+</ion-content>
