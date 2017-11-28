@@ -59,7 +59,7 @@ export class HomePage {
     let currentTask = this.tasks[index];
 
     if(!currentTask.description) {
-        this.presentToast("The task you're trying to update is empty please check if your changes have been written");
+        this.presentToast("The task you're trying to update is empty");
     } else {
         axios.put(`/tasks/${currentTask.id}`, {
            description: currentTask.description,
@@ -134,7 +134,7 @@ export class HomePage {
   presentToast(message: any) {
     let toast = this.toastCtrl.create({
       message: message,
-      duration: 2000,
+      duration: 3000,
       position: 'bottom'
     });
     toast.present();

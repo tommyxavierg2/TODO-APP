@@ -16,7 +16,6 @@ import { HomeChartTabsPage } from '../home-chart-tabs/home-chart-tabs';
 
 export class LoginPage {
   userData: any;
-  newUserData: any;
   users: any;
   loading: any;
   isLoggedIn: boolean;
@@ -29,7 +28,7 @@ export class LoginPage {
     this.userData = JSON.parse(localStorage.getItem('userData'));
     localStorage.removeItem('userData');
 
-    if(this.userData) {
+    if(this.userData != null) {
         this.goToHomePage(this.userData);
       }
 
@@ -47,7 +46,7 @@ export class LoginPage {
   constructor(public navCtrl: NavController, public loadingCtrl: LoadingController, public menu: MenuController, private googlePlus: GooglePlus, private facebook: Facebook, public toastCtrl: ToastController) {
     this.loginUser = { email: "", password: "", id: 0 };
     this.isLoggedIn= false;
-    this.users = [{email: "toxago@gmail.com", password: "123456", id: 5 }];
+    this.users = [{email: "", password: "", id: null }];
 
   }
 
@@ -73,21 +72,22 @@ export class LoginPage {
                   axios.post("/users", {
                               email: this.googleUserData.email,
                               googleUserId: this.googleUserData.uid
-                          })
-                        .then(resp => {
-                          this.googleUserData.id = resp.data.id;
-                          this.isLoggedIn = true;
-                          this.goToHomePage(this.googleUserData);
-                          this.googleUserData = { email: "", uid: "" };
-                        })
-                       .catch(err => {
-                         this.presentToast(`Axios Error ${err}`);
-                       });
+                          }).then(resp => {
+                              this.showLoading();
+                              this.isLoggedIn = true;
+                              this.goToHomePage(resp.data);
+                              this.googleUserData = { email: "", uid: "" };
+                              this.loading.dismiss();
+                        }).catch(err => {
+                              this.presentToast(`Axios Error ${err}`);
+                        });
                } else {
-                 axios.get(`/users?=${this.googleUserData.email}`)
+                 axios.get(`/users?email=${this.googleUserData.email}`)
                  .then(res => {
+                   this.showLoading();
                    this.isLoggedIn = true;
-                   this.goToHomePage(res.data);
+                   this.goToHomePage(res.data[0]);
+                   this.loading.dismiss();
                  })
                }
            })
@@ -118,21 +118,24 @@ loginWithFacebook() {
               email: this.facebookUserData.email,
               username: this.facebookUserData.username
             })
-                .then(res => {
-                  this.isLoggedIn = true;
-                  this.facebookUserData.id = res.data.id;
-                  this.goToHomePage(this.facebookUserData);
-                })
-                .catch(axiosError => {
-                  this.presentToast(`Axios Error: ${axiosError}`);
-                });
+            .then(res => {
+              this.showLoading();
+              this.isLoggedIn = true;
+              this.goToHomePage(res.data[0]);
+              this.loading.dismiss();
+            })
+            .catch(axiosError => {
+              this.presentToast(`Axios Error: ${axiosError}`);
+            });
 
         } else {
 
             axios.get(`/users?email=${this.facebookUserData.email}`)
             .then(res => {
+                this.showLoading();
                 this.isLoggedIn = true;
-                this.goToHomePage(res.data);
+                this.goToHomePage(res.data[0]);
+                this.loading.dismiss();
             })
             .catch(axiosErr => {
               this.presentToast(`Axios error: ${axiosErr}`);
@@ -193,7 +196,7 @@ loginWithFacebook() {
   presentToast(message) {
     let toast = this.toastCtrl.create({
       message: message,
-      duration: 3000,
+      duration: 5000,
       position: 'bottom'
     });
     toast.present();
