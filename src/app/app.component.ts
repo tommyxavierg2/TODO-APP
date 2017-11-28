@@ -18,7 +18,6 @@ export class MyApp {
 
   rootPage:any = LoginRegisterTabsPage;
   userData: any;
-  message: any;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private googlePlus: GooglePlus, private facebook: Facebook, private toastCtrl: ToastController) {
     platform.ready().then(() => {
@@ -37,9 +36,8 @@ export class MyApp {
   }
 
   logoutGoogleAndEmail() {
-    localStorage.removeItem('userData');
-    this.message = "Hope to see you soon!";
     this.presentToast();
+    localStorage.removeItem('userData');
     this.navCtrl.setRoot(LoginRegisterTabsPage);
     this.googlePlus.logout().then(res=> {
       firebase.auth().signOut().then(res => {
@@ -48,16 +46,15 @@ export class MyApp {
 }
 
    logoutFacebook() {
+     this.presentToast();
      this.facebook.logout();
      localStorage.removeItem('userData');
-     this.message = "Hope to see you soon!";
-     this.presentToast();
      this.navCtrl.setRoot(LoginRegisterTabsPage);
    }
 
-   presentToast() {
+   presentToast(message: any = "Hope to see you soon!") {
      let toast = this.toastCtrl.create({
-       message: this.message,
+       message: message,
        duration: 2000,
        position: 'bottom'
      });

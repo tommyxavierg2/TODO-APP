@@ -1,12 +1,25 @@
 page-home {
   ion-input {
+    input[ng-reflect-ng-class=completed] {
+      text-decoration: line-through !important;
+    }
+  }
+  .completed {
+    text-decoration: line-through !important;
+  }
+
+  .notCompleted {
     text-decoration: none;
-    width: inherit;
   }
 
   .item-cover {
     border-bottom: 1px solid #E1E1E1;
     border-top: 1px solid #E1E1E1;
+    width: 10%;
+  }
+
+  page-home .item-cover {
+    width: 10%;
   }
 
   div.input-cover {
@@ -19,15 +32,11 @@ page-home {
     width: 100%;
   }
 
+  .label-md[stacked], .label-md[floating] {
+    margin-left: 10px;
+  }
+
   #newTask {
-    text-decoration: none;
-  }
-
-  .completed {
-    text-decoration: line-through;
-  }
-
-  .notCompleted {
     text-decoration: none;
   }
 

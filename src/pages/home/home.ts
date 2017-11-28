@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController, LoadingController, MenuController, ToastController } from 'ionic-angular';
 import axios from "axios"
-axios.defaults.baseURL = 'https://t6ovbruo.burrow.io/';
+axios.defaults.baseURL = 'https://ucs85wrk.burrow.io/';
+
+import { LoginRegisterTabsPage } from '../login-register-tabs/login-register-tabs';
 
 @Component({
   selector: 'page-home',
@@ -12,8 +14,8 @@ export class HomePage {
   offSet: number = 1;
   totalTasks: number = 0;
   message: string;
+  newUserData: any;
   userData: any;
-  updateTaskData: string;
   tasks: Array<{description: string, isCompleted: boolean, userId: number, id: number}>;
   newTask: {description: string, isCompleted: boolean};
 
@@ -24,40 +26,35 @@ export class HomePage {
     Promise.all([this.loadUserData()]).then(value => {
       this.getTasks();
     }).catch(error => {
-      this.message = error;
-      this.presentToast();
+      this.presentToast(error);
     });
 
 }
 
-  doInfinite(infiniteScroll) {
+  doRefresh(refresher) {
+      axios.get(`/tasks?userId=${this.userData.id}&_page=${this.offSet}&_limit=5`)
+      .then(response => {
+          let data = response.data;
 
-    if (this.tasks.length != this.totalTasks) {
-          axios.get(`/tasks?userId=${this.userData.id}&_page=${this.offSet}&_limit=5`)
-          .then(response => {
-              let data = response.data;
-
-              if(response.data) {
-                  data.forEach(val => {
-                      this.tasks.push(val);
-                  });
-                  this.offSet++;
-              }
-          }).catch(error => {
-              this.message =`Tasks error: ${error}, please try again later`;
-              this.presentToast();
-          }).then(() => infiniteScroll.complete());
-     } else {
-         infiniteScroll.enable(false);
-       }
+          if(response.data) {
+              data.forEach(val => {
+                  this.tasks.push(val);
+              });
+              this.offSet++;
+          }
+      }).catch(error => {
+          this.presentToast(`Tasks error: ${error}, please try again later`);
+      }).then(() => refresher.complete());
 
   }
 
   loadUserData() {
-    this.userData = JSON.parse(localStorage.getItem('userData'))[0];
+    this.userData = JSON.parse(localStorage.getItem('userData'));
+
     if(!this.userData) {
        alert("I'm sorry, but in order to review, update or delete your tasks you first need to be logged in, you'll be redirected to the login page");
-       this.navCtrl.pop();
+       localStorage.removeItem('userData');
+       this.navCtrl.setRoot(LoginRegisterTabsPage);
      }
   }
 
@@ -65,21 +62,18 @@ export class HomePage {
     let currentTask = this.tasks[index];
 
     if(!currentTask.description) {
-        this.message = "The task you're trying to update is empty please check if your changes have been written";
-        this.presentToast();
-    } else { }
-
-    axios.put(`/tasks/${currentTask.id}`, {
-                   description: currentTask.description,
-                   isCompleted: currentTask.isCompleted,
-                   userId: this.userData.id
-               }).then(response => {
-                     this.message = "Task updated";
-                     this.presentToast();
-               }).catch(error => {
-                   this.message = `Task was not updated ${error}, please try again later`;
-                   this.presentToast();
-             });
+        this.presentToast("The task you're trying to update is empty please check if your changes have been written");
+    } else {
+        axios.put(`/tasks/${currentTask.id}`, {
+           description: currentTask.description,
+           isCompleted: currentTask.isCompleted,
+           userId: this.userData.id
+        }).then(response => {
+             this.presentToast("Task updated");
+        }).catch(error => {
+           this.presentToast(`Task was not updated ${error}, please try again later`);
+        });
+     }
   }
 
   getTasks() {
@@ -90,32 +84,31 @@ export class HomePage {
                this.tasks = response.data;
                this.offSet++;
            }).catch(error => {
-               this.message = `Tasks error: ${error}, please try again later`;
-               this.presentToast();
+               this.presentToast(`Tasks error: ${error}, please try again later`);
            });
     }
 
   addTask() {
     let isDuplicated = this.tasks.some(task => this.newTask.description == task.description);
 
-    if(!isDuplicated) {
+    if(!this.newTask.description) {
+      this.presentToast("The task can't be empty");
+    }
+    else if(!isDuplicated) {
         axios.post('/tasks', {
                 description: this.newTask.description,
                 isCompleted: this.newTask.isCompleted,
                 userId: this.userData.id
               }).then(response => {
                   this.tasks.push(response.data);
-                  this.message = "Task added";
-                  this.presentToast();
+                  this.presentToast("Task added");
                   this.newTask.description = "";
               }).catch(error => {
-                  this.message = `Task was not updated ${error}, please try again later`;
-                  this.presentToast();
+                  this.presentToast(`Task was not updated ${error}, please try again later`);
               });
 
     } else {
-          this.message = "Task already on the list, please add different one";
-          this.presentToast();
+          this.presentToast("Task already on the list, please add different one");
       }
  }
 
@@ -123,11 +116,9 @@ export class HomePage {
     let taskIndex = this.tasks[index].id;
     this.tasks.splice(index, 1);
     axios.delete('/tasks/' + taskIndex ).then(response => {
-            this.message = "Task deleted";
-            this.presentToast();
+            this.presentToast("Task deleted");
         }).catch(error => {
-            this.message = error;
-            this.presentToast();
+            this.presentToast(error);
         })
   }
 
@@ -144,9 +135,9 @@ export class HomePage {
     this.menuCtrl.enable(true, 'menu-left');
   }
 
-  presentToast() {
+  presentToast(message: any) {
     let toast = this.toastCtrl.create({
-      message: this.message,
+      message: message,
       duration: 2000,
       position: 'bottom'
     });

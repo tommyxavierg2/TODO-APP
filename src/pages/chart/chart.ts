@@ -3,7 +3,7 @@ import { ToastController } from 'ionic-angular';
 
 import { Chart } from 'chart.js';
 import axios from "axios"
-axios.defaults.baseURL = 'https://t6ovbruo.burrow.io/';
+axios.defaults.baseURL = 'https://ucs85wrk.burrow.io/';
 
 @Component({
   selector: 'page-chart',
@@ -75,13 +75,13 @@ export class ChartPage {
             label: 'Users and tasks totals',
               data: [totalUsers, totalTasks, totalIncompletedTasks.length, totalCompletedTasks.length],
               backgroundColor: [
-                   'rgba(255, 99, 132, 0.2)',
+                   'rgba(0, 255, 0, 0.3)',
                     'rgba(54, 162, 235, 0.2)',
                     'rgba(255, 206, 86, 0.2)',
                     'rgba(75, 192, 192, 0.2)'
                 ],
                 borderColor: [
-                    'rgba(255,99,132,1)',
+                    'rgba(0, 255, 0, 0.3)',
                     'rgba(54, 162, 235, 1)',
                     'rgba(255, 206, 86, 1)',
                     'rgba(75, 192, 192, 1)'
@@ -103,7 +103,7 @@ export class ChartPage {
   }
 
   loadUserData() {
-    this.userData = JSON.parse(localStorage.getItem('userData'))[0];
+    this.userData = JSON.parse(localStorage.getItem('userData'));
   }
 
     getUsers() {

@@ -5,7 +5,7 @@ import { GooglePlus } from '@ionic-native/google-plus';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 import firebase from 'firebase';
 import axios from "axios"
-axios.defaults.baseURL = 'https://t6ovbruo.burrow.io/';
+axios.defaults.baseURL = 'https://ucs85wrk.burrow.io/';
 
 import { HomeChartTabsPage } from '../home-chart-tabs/home-chart-tabs';
 
@@ -16,9 +16,9 @@ import { HomeChartTabsPage } from '../home-chart-tabs/home-chart-tabs';
 
 export class LoginPage {
   userData: any;
-  message: string;
   newUserData: any;
   users: any;
+  loading: any;
   isLoggedIn: boolean;
   googleUserData: any;
   facebookUserData: any;
@@ -26,23 +26,17 @@ export class LoginPage {
   loginUser: {email: string, password: string, id: number};
 
   ionViewWillEnter() {
-    this.newUserData = JSON.parse(sessionStorage.getItem('newUserData'));
     this.userData = JSON.parse(localStorage.getItem('userData'));
+    localStorage.removeItem('userData');
 
     if(this.userData) {
         this.goToHomePage(this.userData);
       }
 
-     else if(this.newUserData) {
-        this.goToHomePage(this.newUserData);
-        this.newUserData = {email: "", pasword: "", id: null};
-        sessionStorage.removeItem('newUserData');
-      }
-
-     else {
-        this.menu.enable(false);
-        this.getUsers();
-      }
+   else {
+      this.menu.enable(false);
+      this.getUsers();
+    }
   }
 
   ionViewDidLeave() {
@@ -87,8 +81,7 @@ export class LoginPage {
                           this.googleUserData = { email: "", uid: "" };
                         })
                        .catch(err => {
-                         this.message = `Axios Error ${err}`;
-                         this.presentToast();
+                         this.presentToast(`Axios Error ${err}`);
                        });
                } else {
                  axios.get(`/users?=${this.googleUserData.email}`)
@@ -99,13 +92,11 @@ export class LoginPage {
                }
            })
         .catch(firebaseError => {
-          this.message = `firebaseError: ${firebaseError}`;
-          this.presentToast();
+          this.presentToast(`firebaseError: ${firebaseError}`);
         });
       })
    .catch(googlePlusError => {
-     this.message = `GooglePlus Error: ${googlePlusError}`;
-     this.presentToast();
+     this.presentToast(`GooglePlus Error: ${googlePlusError}`);
   });
 }
 
@@ -133,8 +124,7 @@ loginWithFacebook() {
                   this.goToHomePage(this.facebookUserData);
                 })
                 .catch(axiosError => {
-                  this.message = `Axios Error: ${axiosError}`;
-                  this.presentToast();
+                  this.presentToast(`Axios Error: ${axiosError}`);
                 });
 
         } else {
@@ -145,14 +135,12 @@ loginWithFacebook() {
                 this.goToHomePage(res.data);
             })
             .catch(axiosErr => {
-              this.message = `Axios error: ${axiosErr}`;
-              this.presentToast();
+              this.presentToast(`Axios error: ${axiosErr}`);
             });
           }
        })
        .catch(facebookError => {
-         this.message = `Facebook Error ${facebookError}`;
-         this.presentToast();
+         this.presentToast(`Facebook Error ${facebookError}`);
          });
      });
 }
@@ -162,43 +150,32 @@ loginWithFacebook() {
     let isPasswordCorrect = this.users.some(user => this.loginUser.password == user.password);
 
     if(!this.loginUser.email || !this.loginUser.password) {
-
-        this.message = "Please make sure all fields are properly filled";
-        this.presentToast();
-
+        this.presentToast("Please make sure all fields are properly filled");
     } else if (!isUserRegistered) {
-          this.message = `The User: ${this.loginUser.email} is not registered, please verify it and try again.`;
-          this.presentToast();
-
+        this.presentToast(`The User: ${this.loginUser.email} is not registered, please verify it and try again.`);
     } else if (!isPasswordCorrect) {
-          this.message = `The password for user: ${this.loginUser.email} is not correct, please verify and try again.`;
-          this.presentToast();
-
+          this.presentToast(`The password for user: ${this.loginUser.email} is not correct, please verify and try again.`);
     } else {
-       this.presentLoadingDefault();
+       this.showLoading();
        axios.get(`/users?email=${this.loginUser.email}&password=${this.loginUser.password}`)
         .then(response => {
            this.loginUser = { email: "", password: "", id: null };
            this.isLoggedIn = true;
            this.goToHomePage(response.data);
         }).catch(error => {
-           this.message = `Error: ${error}`;
-           this.presentToast();
+           this.presentToast(`Error: ${error}`);
+        }).then(() => {
+           this.loading.dismiss();
         });
      }
 
    }
 
-  presentLoadingDefault() {
-    let loading = this.loadingCtrl.create({
-      content: 'Please wait...'
+  showLoading(message: any = "Loading...") {
+    this.loading = this.loadingCtrl.create({
+      content: message
     });
-
-    loading.present();
-
-    setTimeout(() => {
-        loading.dismiss();
-    }, 2500);
+    this.loading.present();
   }
 
   goToHomePage(data: any) {
@@ -213,10 +190,10 @@ loginWithFacebook() {
     })
   }
 
-  presentToast() {
+  presentToast(message) {
     let toast = this.toastCtrl.create({
-      message: this.message,
-      duration: 2000,
+      message: message,
+      duration: 3000,
       position: 'bottom'
     });
     toast.present();
