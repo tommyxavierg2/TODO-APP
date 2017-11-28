@@ -1,7 +1,7 @@
-import axios from "axios";
 import { Component } from '@angular/core';
 import { LoadingController, NavController, ToastController } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
+import axios from "axios"
 axios.defaults.baseURL = 'https://ucs85wrk.burrow.io/';
 
 @Component({
@@ -43,8 +43,6 @@ export class RegisterPage {
                 }).then(axiosResponse => {
                      this.presentToast(`You've been successfully registered ${this.newUser.email}, now you'll be redirected to the home page`);
                      localStorage.setItem('userData', JSON.stringify(axiosResponse.data));
-                     console.log(JSON.stringify(axiosResponse.data));
-                     this.newUser = { email: "", password: "", confirmPassword: "" }
                      this.navCtrl.parent.select(1);
                  }).catch(error => {
                      this.presentToast(error);

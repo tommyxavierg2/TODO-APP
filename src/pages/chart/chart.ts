@@ -40,27 +40,25 @@ export class ChartPage {
     this.userTasks = this.tasks.filter(task => task.userId == this.userData.id);
 
     let myTotalTasks = this.userTasks.length;
-    let myTotalCompletedTasks = this.userTasks.filter(task => task.isCompleted == false);
-    let myTotalIncompletedTasks = this.userTasks.filter(task => task.isCompleted != false);
+    let myTotalCompletedTasks = this.userTasks.filter(task => task.isCompleted == true);
+    let myTotalIncompletedTasks = this.userTasks.filter(task => task.isCompleted == false);
 
     this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
 
         type: 'doughnut',
         data: {
-          labels: ["Tasks", "Completed tasks", "Incompleted tasks"],
+          labels: ["Tasks", "Incompleted tasks", "Completed tasks"],
           datasets: [{
-            data: [myTotalTasks, myTotalCompletedTasks.length, myTotalIncompletedTasks.length],
+            data: [myTotalTasks, myTotalIncompletedTasks.length, myTotalCompletedTasks.length],
             backgroundColor: [
               'rgba(255, 99, 132, 0.2)',
               'rgba(54, 162, 235, 0.2)',
-              'rgba(255, 206, 86, 0.2)',
-              'rgba(75, 192, 192, 0.2)'
+              'rgba(255, 206, 86, 0.2)'
             ],
             hoverBackgroundColor: [
               "#FF6384",
               "#36A2EB",
-              "#FFCE56",
-              "#FF6384"
+              "#FFCE56"
             ]
           }]
         }

@@ -16,18 +16,17 @@
       "id": 16
     },
     {
-      "email": "test@testing.com",
+      "email": "teste@teste.com",
       "password": "qweasd",
       "id": 17
     },
     {
-      "email": "test@testing2.com",
-      "password": "qweasd",
+      "email": "ariannara@mctekk.com",
       "id": 18
     },
     {
-      "email": "test@testing23.com",
-      "password": "qweasd",
+      "email": "luuko72@gmail.com",
+      "password": "mierda72",
       "id": 19
     }
   ],
@@ -129,10 +128,40 @@
       "id": 39
     },
     {
-      "description": "Sfsfbwfbwf",
+      "description": "Cam 5.28",
       "isCompleted": false,
-      "userId": 18,
+      "userId": 19,
       "id": 40
+    },
+    {
+      "description": "Arbolito",
+      "isCompleted": false,
+      "userId": 19,
+      "id": 41
+    },
+    {
+      "description": "Pelucas",
+      "isCompleted": false,
+      "userId": 19,
+      "id": 42
+    },
+    {
+      "description": "Convertir a .jpg",
+      "isCompleted": false,
+      "userId": 19,
+      "id": 43
+    },
+    {
+      "description": "H ah agauhdijdskaka quebtan larg puede ser edl textobquebsenone aqui ",
+      "isCompleted": false,
+      "userId": 19,
+      "id": 44
+    },
+    {
+      "description": "El texto del task se cort ",
+      "isCompleted": false,
+      "userId": 19,
+      "id": 45
     }
   ]
 }
