@@ -43,7 +43,7 @@
    </ion-item>
  </div> <br>
 
-  <ion-item #newTaskIonItem>
+  <ion-item>
     <ion-label floating>Write a task</ion-label>
     <ion-input type="text" [(ngModel)]="newTask.description" (keyup.enter)="addTask()"></ion-input>
     <button item-right *ngIf="newTask.description"  ion-button round (click)="addTask()">

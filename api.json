@@ -32,12 +32,6 @@
   ],
   "tasks": [
     {
-      "description": "Task 1",
-      "isCompleted": true,
-      "userId": 14,
-      "id": 12
-    },
-    {
       "description": "Google test updated ",
       "isCompleted": true,
       "userId": 10,
@@ -50,18 +44,6 @@
       "id": 16
     },
     {
-      "description": "Task 4",
-      "isCompleted": false,
-      "userId": 14,
-      "id": 17
-    },
-    {
-      "description": "Task 6",
-      "isCompleted": false,
-      "userId": 14,
-      "id": 18
-    },
-    {
       "description": "Google test updated 2",
       "isCompleted": true,
       "userId": 10,
@@ -69,7 +51,7 @@
     },
     {
       "description": "Task 10",
-      "isCompleted": true,
+      "isCompleted": false,
       "userId": 14,
       "id": 23
     },
@@ -122,32 +104,20 @@
       "id": 37
     },
     {
-      "description": "Cool",
-      "isCompleted": false,
-      "userId": 14,
-      "id": 39
-    },
-    {
       "description": "Cam 5.28",
-      "isCompleted": false,
+      "isCompleted": true,
       "userId": 19,
       "id": 40
     },
     {
-      "description": "Arbolito",
-      "isCompleted": false,
-      "userId": 19,
-      "id": 41
-    },
-    {
       "description": "Pelucas",
-      "isCompleted": false,
+      "isCompleted": true,
       "userId": 19,
       "id": 42
     },
     {
       "description": "Convertir a .jpg",
-      "isCompleted": false,
+      "isCompleted": true,
       "userId": 19,
       "id": 43
     },
@@ -158,10 +128,16 @@
       "id": 44
     },
     {
-      "description": "El texto del task se cort ",
+      "description": "Ai el texto es demasiado largo se cota rn rl task ",
       "isCompleted": false,
       "userId": 19,
-      "id": 45
+      "id": 46
+    },
+    {
+      "description": "1245+-&_€€##+",
+      "isCompleted": false,
+      "userId": 19,
+      "id": 47
     }
   ]
 }

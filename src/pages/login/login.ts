@@ -161,7 +161,7 @@ loginWithFacebook() {
         .then(response => {
            this.loginUser = { email: "", password: "", id: null };
            this.isLoggedIn = true;
-           this.goToHomePage(response.data);
+           this.goToHomePage(response.data[0]);
         }).catch(error => {
            this.presentToast(`Error: ${error}`);
         }).then(() => {

@@ -12,9 +12,6 @@ import { LoginRegisterTabsPage } from '../login-register-tabs/login-register-tab
 
 export class HomePage {
   offSet: number = 1;
-  totalTasks: number = 0;
-  message: string;
-  newUserData: any;
   userData: any;
   tasks: Array<{description: string, isCompleted: boolean, userId: number, id: number}>;
   newTask: {description: string, isCompleted: boolean};
@@ -80,7 +77,6 @@ export class HomePage {
 
     axios.get(`/tasks?userId=${this.userData.id}&_page=${this.offSet}&_limit=5`)
             .then(response => {
-               this.totalTasks = response.headers['x-total-count'];
                this.tasks = response.data;
                this.offSet++;
            }).catch(error => {

@@ -21,13 +21,17 @@ export class ChartPage {
   users: any;
   tasks: any;
 
-  constructor(public toastCtrl: ToastController) {
+  ionViewWillEnter() {
     Promise.all([this.getUsers(), this.getTasks(), this.loadUserData()]).then(() => {
       this.showCharts();
     }).catch(error => {
       this.message = error;
       this.presentToast();
     });
+  }
+
+  constructor(public toastCtrl: ToastController) {
+
   }
 
   showCharts() {
