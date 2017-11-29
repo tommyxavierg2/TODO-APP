@@ -6,6 +6,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { Facebook } from '@ionic-native/facebook';
 import firebase from 'firebase';
 import { GooglePlus } from '@ionic-native/google-plus';
+import { OneSignal } from '@ionic-native/onesignal';
 
 import { LoginRegisterTabsPage } from '../pages/login-register-tabs/login-register-tabs';
 
@@ -19,13 +20,31 @@ export class MyApp {
   rootPage:any = LoginRegisterTabsPage;
   userData: any;
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private googlePlus: GooglePlus, private facebook: Facebook, private toastCtrl: ToastController) {
-    platform.ready().then(() => {
+  constructor(private platform: Platform, statusBar: StatusBar,
+    splashScreen: SplashScreen, private googlePlus: GooglePlus,
+    private facebook: Facebook, private toastCtrl: ToastController,
+    private onesignal: OneSignal) {
+
+    this.platform.ready().then(() => {
+      this.initializeOneSignalApp();
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
       splashScreen.hide();
     });
+  }
+
+  initializeOneSignalApp() {
+    this.onesignal.startInit("8283ce20-b273-4647-b994-44eee08979f3", "772372597116");
+    this.onesignal.inFocusDisplaying(this.onesignal.OSInFocusDisplayOption.Notification);
+    this.onesignal.setSubscription(true);
+    this.onesignal.handleNotificationReceived().subscribe(() => {
+        // your code after Notification received.
+    });
+    this.onesignal.handleNotificationOpened().subscribe(() => {
+        // your code to handle after Notification opened
+    });
+    this.onesignal.endInit();
   }
 
   logout() {

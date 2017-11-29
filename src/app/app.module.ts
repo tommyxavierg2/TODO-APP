@@ -12,6 +12,8 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import firebase from 'firebase';
 import { Facebook } from '@ionic-native/facebook';
+import { Push } from '@ionic-native/push';
+import { OneSignal } from '@ionic-native/onesignal';
 
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
@@ -65,6 +67,8 @@ firebase.initializeApp(firebaseConfig);
     SplashScreen,
     GooglePlus,
     Facebook,
+    Push,
+    OneSignal,
     {
       provide: ErrorHandler,
       useValue: axios,
