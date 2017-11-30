@@ -1,17 +1,42 @@
 page-home {
-  input {
-    text-decoration: none;
+  ion-input {
+    input[ng-reflect-ng-class=completed] {
+      text-decoration: line-through !important;
+    }
   }
-
-  #newTask {
-    text-decoration: none;
-  }
-
   .completed {
-    text-decoration: line-through;
+    text-decoration: line-through !important;
   }
 
   .notCompleted {
+    text-decoration: none;
+  }
+
+  .item-cover {
+    border-bottom: 1px solid #E1E1E1;
+    border-top: 1px solid #E1E1E1;
+    width: 10%;
+  }
+
+  page-home .item-cover {
+    width: 10%;
+  }
+
+  div.input-cover {
+    left: 8%;
+    right: 8%;
+    width: 84%;
+  }
+
+  div.input-wrapper {
+    width: 100%;
+  }
+
+  .label-md[stacked], .label-md[floating] {
+    margin-left: 10px;
+  }
+
+  #newTask {
     text-decoration: none;
   }
 
@@ -26,9 +51,25 @@ page-home {
     justify-content: center;
   }
 
-  ion-item {
-    border-bottom: 1px solid #E1E1E1;
-    border-top: 1px solid #E1E1E1;
+  ion-item-md .checkbox-md {
+    margin: 0px, 0px, 0px, 0px;
+  }
+
+  .item.item-md .checkbox-md {
+    margin: 9px;
+  }
+
+  .item-md {
+    padding-left: 0px;
+  }
+
+  .item-md.item-block .item-inner {
+    padding-right: 0px;
+  }
+
+  .text-input-md {
+    margin: 0px, 0px;
+    width: 100%;
   }
 
   button {
@@ -40,6 +81,10 @@ page-home {
   ion-checkbox {
     margin: 0;
     padding: 0;
+  }
+
+  #newTaskIonItem {
+    margin-top: 5px;
   }
 
 

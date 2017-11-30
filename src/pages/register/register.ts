@@ -1,26 +1,23 @@
-import axios from "axios";
 import { Component } from '@angular/core';
 import { LoadingController, NavController, ToastController } from 'ionic-angular';
-axios.defaults.baseURL = 'https://c2es8ml4.burrow.io/';
+import { AngularFireAuth } from 'angularfire2/auth';
+import axios from "axios"
+axios.defaults.baseURL = 'https://ucs85wrk.burrow.io/';
 
 @Component({
+  selector: "page-register",
   templateUrl: 'register.html'
 })
 
 export class RegisterPage {
-  message: string;
   newUser: {email: string, password: string, confirmPassword: string};
   users: Array<{email: string, password: string, id: number}>;
-
-  ionViewWillEnter() {
-    this.getUsers();
-  }
 
   ionViewDidLeave() {
     this.newUser = { email: "", password: "", confirmPassword: "" }
   }
 
-  constructor(public loadingCtrl: LoadingController, public navCtrl: NavController, public toastCtrl: ToastController) {
+  constructor(public loadingCtrl: LoadingController, public navCtrl: NavController, public toastCtrl: ToastController, private fireAuth: AngularFireAuth) {
     this.users = [];
     this.getUsers();
     this.newUser = { email: "", password: "", confirmPassword: "" };
@@ -28,31 +25,31 @@ export class RegisterPage {
 
   registerNewUser() {
     let isUserRegistered = this.users.some(user => this.newUser.email == user.email);
+
     if(isUserRegistered) {
-       this.message = `Oops! I'm sorry but it seems the email: ${this.newUser.email} has already been taken, please try another one`;
-       this.presentToast();
-    } else if(this.newUser.email == "" || this.newUser.password == "" || this.newUser.confirmPassword == "") {
-       this.message = "Please make sure all fields are properly filled";
-       this.presentToast();
-    } else if(this.newUser.password.length < 6 && this.newUser.confirmPassword.length < 6) {
-       this.message = "Please make sure the password has more than 6 characters";
-       this.presentToast();
+       this.presentToast(`Oops! I'm sorry but it seems the email: ${this.newUser.email} has already been taken, please try another one`);
+    } else if(!this.newUser.email || !this.newUser.password || !this.newUser.confirmPassword) {
+       this.presentToast("Please make sure all fields are properly filled");
+    } else if(this.newUser.password.length < 6 || this.newUser.confirmPassword.length < 6) {
+       this.presentToast("Please make sure the password has more than 6 characters");
     } else if(this.newUser.password != this.newUser.confirmPassword) {
-       this.message = "We require both passwords fields to be equal, please make sure to enter the same password in both fields";
-       this.presentToast();
+       this.presentToast("We require both passwords fields to be equal, please make sure to enter the same password in both fields");
     } else {
-        axios.post('/users', {
-                  email: this.newUser.email,
+          this.fireAuth.auth.createUserWithEmailAndPassword(this.newUser.email, this.newUser.password)
+          .then(response => {
+              axios.post('/users', {
+                  email: response.email,
                   password: this.newUser.password
-                 }).then(response => {
-                     this.presentLoadingDefault();
-                     sessionStorage.setItem('newUserData', JSON.stringify(this.newUser));
-                     this.newUser = { email: "", password: "", confirmPassword: "" }
-                     this.navCtrl.parent.select(0);
+                }).then(axiosResponse => {
+                     this.presentToast(`You've been successfully registered ${this.newUser.email}, now you'll be redirected to the home page`);
+                     localStorage.setItem('userData', JSON.stringify(axiosResponse.data));
+                     this.navCtrl.parent.select(1);
                  }).catch(error => {
-                     this.message = error;
-                     this.presentToast();
-             });
+                     this.presentToast(error);
+                 });
+          }).catch(fireAuthError => {
+              this.presentToast(fireAuthError);
+          });
       }
   }
 
@@ -61,29 +58,16 @@ export class RegisterPage {
           .then(response => {
             this.users = response.data;
           })
-          .catch(erorr => {
-            this.message = error;
-            this.presentToast();
+          .catch(error => {
+            this.presentToast(error);
         });
     }
 
-    presentLoadingDefault() {
-      let loading = this.loadingCtrl.create({
-        content: `You've been sucessfully registered ${this.newUser.email}, Welcome to our family!`
-      });
-
-      loading.present();
-
-      setTimeout(() => {
-          loading.dismiss();
-      }, 3000);
-  }
-
-  presentToast() {
+  presentToast(message: any, duration: any = 5000) {
     let toast = this.toastCtrl.create({
-      message: this.message,
-      duration: 2000,
-      position: 'middle'
+      message:  message,
+      duration: duration,
+      position: 'bottom'
     });
     toast.present();
   }

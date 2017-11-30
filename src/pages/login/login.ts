@@ -1,22 +1,24 @@
 import { Component } from '@angular/core';
 import { NavController, LoadingController, MenuController, ToastController } from 'ionic-angular';
 
-import { RegisterPage } from '../register/register';
-import { HomePage } from '../home/home';
 import { GooglePlus } from '@ionic-native/google-plus';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
+import { OneSignal } from '@ionic-native/onesignal';
 import firebase from 'firebase';
 import axios from "axios"
-axios.defaults.baseURL = 'https://c2es8ml4.burrow.io/';
+axios.defaults.baseURL = 'https://ucs85wrk.burrow.io/';
+
+import { HomeChartTabsPage } from '../home-chart-tabs/home-chart-tabs';
 
 @Component({
+  selector: "page-login",
   templateUrl: 'login.html'
 })
 
 export class LoginPage {
-  message: string;
-  newUserData: any;
+  userData: any;
   users: any;
+  loading: any;
   isLoggedIn: boolean;
   googleUserData: any;
   facebookUserData: any;
@@ -24,34 +26,35 @@ export class LoginPage {
   loginUser: {email: string, password: string, id: number};
 
   ionViewWillEnter() {
-  /*  this.newUserData = JSON.parse(sessionStorage.getItem('newUserData'));
-    if (this.newUserData) {
-      axios.get(`/users?email=${this.newUserData.email}`)
-        .then(res => {
-            this.newUserData = res.data;
-            this.goToHomePage(this.newUserData);
-            this.newUserData = {email: "", pasword: "", id: null};
-        })
-    } else {
+    this.userData = JSON.parse(localStorage.getItem('userData'));
+    localStorage.removeItem('userData');
+
+    if(this.userData != null) {
+        this.goToHomePage(this.userData);
+      }
+
+   else {
       this.menu.enable(false);
       this.getUsers();
-    } */
+    }
   }
 
   ionViewDidLeave() {
       this.loginUser = { email: "", password: "", id: null };
       this.menu.enable(true);
-      sessionStorage.removeItem('newUserData');
   }
 
-  constructor(public navCtrl: NavController, public loadingCtrl: LoadingController, public menu: MenuController, private googlePlus: GooglePlus, private facebook: Facebook, public toastCtrl: ToastController) {
+  constructor(
+    public navCtrl: NavController, public loadingCtrl: LoadingController,
+    public menu: MenuController, private googlePlus: GooglePlus, private facebook: Facebook,
+    public toastCtrl: ToastController, private onesignal: OneSignal) {
     this.loginUser = { email: "", password: "", id: 0 };
     this.isLoggedIn= false;
-    this.users = [{email: "toxago@gmail.com", password: "123456", id: 5 }];
+    this.users = [{email: "", password: "", id: null }];
   }
 
   goToRegisterPage() {
-    this.navCtrl.push(RegisterPage);
+    this.navCtrl.parent.select(1);
   }
 
   loginWithGoogle() {
@@ -72,32 +75,31 @@ export class LoginPage {
                   axios.post("/users", {
                               email: this.googleUserData.email,
                               googleUserId: this.googleUserData.uid
-                          })
-                        .then(resp => {
-                          this.googleUserData.id = resp.data.id;
-                          this.isLoggedIn = true;
-                          this.goToHomePage(this.googleUserData);
-                          this.googleUserData = { email: "", uid: "" };
-                        })
-                       .catch(err => {
-                         this.message = `Axios Erro ${err}`;
-                         this.presentToast();
-                       });
+                          }).then(resp => {
+                              this.showLoading();
+                              this.isLoggedIn = true;
+                              this.goToHomePage(resp.data);
+                              this.googleUserData = { email: "", uid: "" };
+                              this.loading.dismiss();
+                        }).catch(err => {
+                              this.presentToast(`Axios Error ${err}`);
+                        });
                } else {
-                 axios.get(`/users?=${this.googleUserData.email}`)
+                 axios.get(`/users?email=${this.googleUserData.email}`)
                  .then(res => {
-                   this.goToHomePage(res.data);
+                   this.showLoading();
+                   this.isLoggedIn = true;
+                   this.goToHomePage(res.data[0]);
+                   this.loading.dismiss();
                  })
                }
            })
         .catch(firebaseError => {
-          this.message = `firebaseError: ${firebaseError}`;
-          this.presentToast();
+          this.presentToast(`firebaseError: ${firebaseError}`);
         });
       })
    .catch(googlePlusError => {
-     this.message = `GooglePlus Error: ${googlePlusError}`;
-     this.presentToast();
+     this.presentToast(`GooglePlus Error: ${googlePlusError}`);
   });
 }
 
@@ -119,32 +121,32 @@ loginWithFacebook() {
               email: this.facebookUserData.email,
               username: this.facebookUserData.username
             })
-                .then(res => {
-                  this.isLoggedIn = true;
-                  this.facebookUserData.id = res.data.id;
-                  this.goToHomePage(this.facebookUserData);
-                })
-                .catch(axiosError => {
-                  this.message = `Axios Error: ${axiosError}`;
-                  this.presentToast();
-                });
+            .then(res => {
+              this.showLoading();
+              this.isLoggedIn = true;
+              this.goToHomePage(res.data[0]);
+              this.loading.dismiss();
+            })
+            .catch(axiosError => {
+              this.presentToast(`Axios Error: ${axiosError}`);
+            });
 
         } else {
 
             axios.get(`/users?email=${this.facebookUserData.email}`)
             .then(res => {
+                this.showLoading();
                 this.isLoggedIn = true;
-                this.goToHomePage(res.data);
+                this.goToHomePage(res.data[0]);
+                this.loading.dismiss();
             })
             .catch(axiosErr => {
-              this.message = `Axios error: ${axiosErr}`;
-              this.presentToast();
+              this.presentToast(`Axios error: ${axiosErr}`);
             });
           }
        })
        .catch(facebookError => {
-         this.message = `Facebook Error ${facebookError}`;
-         this.presentToast();
+         this.presentToast(`Facebook Error ${facebookError}`);
          });
      });
 }
@@ -154,49 +156,37 @@ loginWithFacebook() {
     let isPasswordCorrect = this.users.some(user => this.loginUser.password == user.password);
 
     if(!this.loginUser.email || !this.loginUser.password) {
-      
-        this.message = "Please make sure all fields are properly filled";
-        this.presentToast();
-
+        this.presentToast("Please make sure all fields are properly filled");
     } else if (!isUserRegistered) {
-          this.message = `The User: ${this.loginUser.email} is not registered, please verify it and try again.`;
-          this.presentToast();
-
+        this.presentToast(`The User: ${this.loginUser.email} is not registered, please verify it and try again.`);
     } else if (!isPasswordCorrect) {
-          this.message = `The password for user: ${this.loginUser.email} is not correct, please verify and try again.`;
-          this.presentToast();
-
+          this.presentToast(`The password for user: ${this.loginUser.email} is not correct, please verify and try again.`);
     } else {
-       this.presentLoadingDefault();
+       this.showLoading();
        axios.get(`/users?email=${this.loginUser.email}&password=${this.loginUser.password}`)
         .then(response => {
-           this.isLoggedIn = true;
            this.loginUser = { email: "", password: "", id: null };
-           this.goToHomePage(response.data);
-        })
-        .catch(error => {
-           this.message = `Error: ${error}`;
-           this.presentToast();
+           this.isLoggedIn = true;
+           this.goToHomePage(response.data[0]);
+        }).catch(error => {
+           this.presentToast(`Error: ${error}`);
+        }).then(() => {
+           this.loading.dismiss();
         });
      }
 
    }
 
-  presentLoadingDefault() {
-    let loading = this.loadingCtrl.create({
-      content: 'Please wait...'
+  showLoading(message: any = "Loading...") {
+    this.loading = this.loadingCtrl.create({
+      content: message
     });
-
-    loading.present();
-
-    setTimeout(() => {
-        loading.dismiss();
-    }, 2500);
+    this.loading.present();
   }
 
   goToHomePage(data: any) {
-    sessionStorage.setItem('userData', JSON.stringify(data));
-    this.navCtrl.push(HomePage);
+    localStorage.setItem('userData', JSON.stringify(data));
+    this.navCtrl.push(HomeChartTabsPage);
   }
 
   getUsers() {
@@ -206,11 +196,11 @@ loginWithFacebook() {
     })
   }
 
-  presentToast() {
+  presentToast(message) {
     let toast = this.toastCtrl.create({
-      message: this.message,
-      duration: 2000,
-      position: 'middle'
+      message: message,
+      duration: 5000,
+      position: 'bottom'
     });
     toast.present();
   }

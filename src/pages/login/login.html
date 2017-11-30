@@ -9,15 +9,17 @@
 
  <ion-list *ngIf="!isLoggedIn">
     <ion-item>
-      <ion-label floating>email</ion-label>
-      <ion-input type="text" [(ngModel)]="loginUser.email" name="email"></ion-input>
+      <ion-label floating>Email</ion-label>
+      <ion-input type="email" [(ngModel)]="loginUser.email" required></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label floating>password</ion-label>
-      <ion-input type="password" [(ngModel)]="loginUser.password" name="userPassword"></ion-input>
-    </ion-item>
+      <ion-label floating>Password</ion-label>
+      <ion-input type="password" [(ngModel)]="loginUser.password" (keyup.enter)="loginWithEmail()"></ion-input>
+    </ion-item> <br>
+
       <button ion-button block color="secondary" (click)="loginWithEmail()">Log In</button>
+
 
  </ion-list>
 
@@ -39,8 +41,5 @@
       </ion-col>
     </ion-row>
   </ion-list>
-
-  <h3>New here?</h3>
-  <button ion-button  block color="light" (click)="goToRegisterPage()">Create account</button>
 
 </ion-content>

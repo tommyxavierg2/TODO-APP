@@ -1,14 +1,14 @@
 import { Component, ViewChild } from '@angular/core';
-import { Platform, NavController } from 'ionic-angular';
+import { Platform, NavController, ToastController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
-import { GooglePlus } from '@ionic-native/google-plus';
-import firebase from 'firebase';
-import { LoginPage } from '../pages/login/login';
-import {TabsPage } from '../pages/tabs/tabs';
 import { Facebook } from '@ionic-native/facebook';
-import { HomePage } from '../pages/home/home';
+import firebase from 'firebase';
+import { GooglePlus } from '@ionic-native/google-plus';
+import { OneSignal } from '@ionic-native/onesignal';
+
+import { LoginRegisterTabsPage } from '../pages/login-register-tabs/login-register-tabs';
 
 @Component({
   templateUrl: 'app.html'
@@ -16,10 +16,17 @@ import { HomePage } from '../pages/home/home';
 
 export class MyApp {
   @ViewChild('content') navCtrl: NavController;
-  rootPage:any = HomePage;
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private googlePlus: GooglePlus, private facebook: Facebook) {
-    platform.ready().then(() => {
+  rootPage:any = LoginRegisterTabsPage;
+  userData: any;
+
+  constructor(private platform: Platform, statusBar: StatusBar,
+    splashScreen: SplashScreen, private googlePlus: GooglePlus,
+    private facebook: Facebook, private toastCtrl: ToastController,
+    private onesignal: OneSignal) {
+
+    this.platform.ready().then(() => {
+      this.initializeOneSignalApp();
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
@@ -27,42 +34,50 @@ export class MyApp {
     });
   }
 
-  logout() {
-    this.facebook.getLoginStatus(response => {
-      if(response.status === "connected") {
-           this.logoutFacebook();
-       } else {
-         this.logoutGoogle();
-       }
-     })
+  initializeOneSignalApp() {
+    this.onesignal.startInit("8283ce20-b273-4647-b994-44eee08979f3", "772372597116");
+    this.onesignal.inFocusDisplaying(this.onesignal.OSInFocusDisplayOption.Notification);
+    this.onesignal.setSubscription(true);
+    this.onesignal.handleNotificationReceived().subscribe(() => {
+        // your code after Notification received.
+    });
+    this.onesignal.handleNotificationOpened().subscribe(() => {
+        // your code to handle after Notification opened
+    });
+    this.onesignal.endInit();
   }
 
-  logoutGoogle() {
-    this.googlePlus.logout().then(res=> {
-      firebase.auth().signOut()
-          .then(res => {
-            alert("Hope to see you soon!");
-            sessionStorage.removeItem('userData');
-            this.navCtrl.setRoot(LoginPage);
-        }).catch( firebaseErr => {
-            alert(firebaseErr);
-        });
-
-    }).catch(googlePlusErr => {
-       alert(googlePlusErr);
+  logout() {
+    Promise.all([this.logoutGoogleAndEmail()]).then(response => {})
+    .catch(err => {
+      this.logoutFacebook();
     });
   }
 
+  logoutGoogleAndEmail() {
+    this.presentToast();
+    localStorage.removeItem('userData');
+    this.navCtrl.setRoot(LoginRegisterTabsPage);
+    this.googlePlus.logout().then(res=> {
+      firebase.auth().signOut().then(res => {
+    });
+  });
+}
+
    logoutFacebook() {
-     this.facebook.logout()
-     .then( response => {
-       alert("Hope to see you soon");
-       sessionStorage.removeItem('userData');
-       this.navCtrl.pop();
-     })
-      .catch(err => {
-        alert(("err"));
-      });
+     this.presentToast();
+     this.facebook.logout();
+     localStorage.removeItem('userData');
+     this.navCtrl.setRoot(LoginRegisterTabsPage);
+   }
+
+   presentToast(message: any = "Hope to see you soon!") {
+     let toast = this.toastCtrl.create({
+       message: message,
+       duration: 2000,
+       position: 'bottom'
+     });
+     toast.present();
    }
 
 }
