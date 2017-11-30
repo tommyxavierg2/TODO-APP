@@ -26,23 +26,27 @@ export class MyApp {
     private onesignal: OneSignal) {
 
     this.platform.ready().then(() => {
-      this.initializeOneSignalApp();
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
       splashScreen.hide();
+
+      this.initializeOneSignalApp();
+
     });
   }
 
   initializeOneSignalApp() {
     this.onesignal.startInit("8283ce20-b273-4647-b994-44eee08979f3", "772372597116");
-    this.onesignal.inFocusDisplaying(this.onesignal.OSInFocusDisplayOption.Notification);
+    this.onesignal.inFocusDisplaying(this.onesignal.OSInFocusDisplayOption.InAppAlert)
     this.onesignal.setSubscription(true);
     this.onesignal.handleNotificationReceived().subscribe(() => {
         // your code after Notification received.
     });
-    this.onesignal.handleNotificationOpened().subscribe(() => {
+    this.onesignal.handleNotificationOpened().subscribe(jsonData => {
         // your code to handle after Notification opened
+        //alert(JSON.stringify(jsonData));
+
     });
     this.onesignal.endInit();
   }
