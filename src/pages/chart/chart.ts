@@ -30,12 +30,9 @@ export class ChartPage {
     });
   }
 
-  constructor(public toastCtrl: ToastController) {
-
-  }
+  constructor(public toastCtrl: ToastController) {}
 
   showCharts() {
-
     let totalUsers = this.users.length;
     let totalTasks = this.tasks.length;
     let totalCompletedTasks = this.tasks.filter(task => task.isCompleted == false);
@@ -74,7 +71,7 @@ export class ChartPage {
       data: {
           labels: ["Users", "Tasks", "Completed tasks", "Incompleted tasks"],
           datasets: [{
-            label: 'Users and tasks totals',
+            label: 'Totals',
               data: [totalUsers, totalTasks, totalIncompletedTasks.length, totalCompletedTasks.length],
               backgroundColor: [
                    'rgba(0, 255, 0, 0.3)',

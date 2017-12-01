@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { LoadingController, NavController, ToastController } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
+
 import axios from "axios"
 axios.defaults.baseURL = 'https://ucs85wrk.burrow.io/';
 
@@ -17,7 +18,9 @@ export class RegisterPage {
     this.newUser = { email: "", password: "", confirmPassword: "" }
   }
 
-  constructor(public loadingCtrl: LoadingController, public navCtrl: NavController, public toastCtrl: ToastController, private fireAuth: AngularFireAuth) {
+  constructor(public loadingCtrl: LoadingController, public navCtrl: NavController,
+              public toastCtrl: ToastController, private fireAuth: AngularFireAuth
+               ) {
     this.users = [];
     this.getUsers();
     this.newUser = { email: "", password: "", confirmPassword: "" };
