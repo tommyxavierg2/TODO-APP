@@ -1,0 +1,17 @@
+<ion-header>
+    <ion-toolbar no-border>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+      <ion-title>TODO App</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <h3>Push your message</h3>
+  <ion-item>
+    <ion-label floating>Write your message</ion-label>
+    <ion-textarea [(ngModel)]="message"></ion-textarea>
+  </ion-item>
+  <button ion-button block (click)="sendNotification(message)" (keyup.enter)="sendNotification(message)">Push your message</button>
+</ion-content>
