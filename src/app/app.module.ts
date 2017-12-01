@@ -22,6 +22,7 @@ import { LoginRegisterTabsPage } from '../pages/login-register-tabs/login-regist
 import { ChartPage } from '../pages/chart/chart';
 import { CarouselPage } from '../pages/carousel/carousel';
 import { HomeChartTabsPage } from '../pages/home-chart-tabs/home-chart-tabs';
+import { PushNotificationPage } from '../pages/push-notification/push-notification';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyA_1lUAhFwdp3MSvWSfZNqFuaFz2XXxL98",
@@ -43,6 +44,7 @@ firebase.initializeApp(firebaseConfig);
     CarouselPage,
     LoginRegisterTabsPage,
     HomeChartTabsPage,
+    PushNotificationPage,
   ],
   imports: [
     BrowserModule,
@@ -61,6 +63,7 @@ firebase.initializeApp(firebaseConfig);
     CarouselPage,
     LoginRegisterTabsPage,
     HomeChartTabsPage,
+    PushNotificationPage,
   ],
   providers: [
     StatusBar,

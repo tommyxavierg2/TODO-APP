@@ -6,7 +6,7 @@ import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 import { OneSignal } from '@ionic-native/onesignal';
 import firebase from 'firebase';
 import axios from "axios"
-axios.defaults.baseURL = 'https://ucs85wrk.burrow.io/';
+axios.defaults.baseURL = 'https://onesignal.com/api/v1/notifications/';
 
 import { HomeChartTabsPage } from '../home-chart-tabs/home-chart-tabs';
 
@@ -24,6 +24,7 @@ export class LoginPage {
   facebookUserData: any;
   googleUserProfile: any = null;
   loginUser: {email: string, password: string, id: number};
+  oneId: any;
 
   ionViewWillEnter() {
     this.userData = JSON.parse(localStorage.getItem('userData'));
@@ -101,11 +102,11 @@ export class LoginPage {
    .catch(googlePlusError => {
      this.presentToast(`GooglePlus Error: ${googlePlusError}`);
   });
-}
+  }
 
-loginWithFacebook() {
+  loginWithFacebook() {
 
-  this.facebook.login(['email', 'public_profile']).then((response: FacebookLoginResponse) => {
+    this.facebook.login(['email', 'public_profile']).then((response: FacebookLoginResponse) => {
     this.facebook.api('me?fields=id,name,email,first_name,picture.widht(150).height(150).as(picture_large)', [])
       .then(profile => {
         this.facebookUserData = {
@@ -149,7 +150,7 @@ loginWithFacebook() {
          this.presentToast(`Facebook Error ${facebookError}`);
          });
      });
-}
+  }
 
   loginWithEmail() {
     let isUserRegistered = this.users.some(user => this.loginUser.email == user.email);

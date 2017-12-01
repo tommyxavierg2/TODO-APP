@@ -118,5 +118,5 @@
     <plugin name="cordova-plugin-console" spec="^1.1.0" />
     <allow-navigation href="http://192.168.1.174:8101" />
     <plugin name="onesignal-cordova-plugin" spec="^2.2.4" />
-    <plugin name="cordova-plugin-fcm" spec="^2.1.2" />
+    <plugin name="cordova-plugin-statusbar" spec="^2.3.0" />
 </widget>
