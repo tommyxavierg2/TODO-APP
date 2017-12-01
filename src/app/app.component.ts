@@ -7,6 +7,7 @@ import { Facebook } from '@ionic-native/facebook';
 import firebase from 'firebase';
 import { GooglePlus } from '@ionic-native/google-plus';
 import { OneSignal } from '@ionic-native/onesignal';
+import { TranslateService } from '@ngx-translate/core';
 
 import { LoginRegisterTabsPage } from '../pages/login-register-tabs/login-register-tabs';
 
@@ -23,9 +24,18 @@ export class MyApp {
   constructor(private platform: Platform, statusBar: StatusBar,
     splashScreen: SplashScreen, private googlePlus: GooglePlus,
     private facebook: Facebook, private toastCtrl: ToastController,
-    private onesignal: OneSignal) {
+    private onesignal: OneSignal, private translate: TranslateService) {
 
     this.platform.ready().then(() => {
+
+      this.translate.addLangs(["en", "es"]);
+      this.translate.setDefaultLang('en');
+
+      let browserLang = this.translate.getBrowserLang();
+      this.translate.use(browserLang.match(/en|es/) ?
+      browserLang : 'es');
+
+
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
@@ -38,14 +48,14 @@ export class MyApp {
 
   initializeOneSignalApp() {
     this.onesignal.startInit("8283ce20-b273-4647-b994-44eee08979f3", "772372597116");
-    this.onesignal.inFocusDisplaying(this.onesignal.OSInFocusDisplayOption.InAppAlert)
+    this.onesignal.inFocusDisplaying(this.onesignal.OSInFocusDisplayOption.Notification)
     this.onesignal.setSubscription(true);
     this.onesignal.handleNotificationReceived().subscribe(() => {
-        // your code after Notification received.
+        // your code after Notification received.``
     });
     this.onesignal.handleNotificationOpened().subscribe(jsonData => {
         // your code to handle after Notification opened
-        //alert(JSON.stringify(jsonData));
+        //console.log(JSON.stringify(jsonData));
 
     });
     this.onesignal.endInit();

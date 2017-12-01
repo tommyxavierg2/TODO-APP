@@ -5,25 +5,25 @@
 </ion-header>
 
 <ion-content no-padding text-center>
-   <h1>Login </h1>
+   <h1>{{ 'Login' | translate }} </h1>
 
  <ion-list *ngIf="!isLoggedIn">
     <ion-item>
-      <ion-label floating>Email</ion-label>
+      <ion-label floating>{{ 'Email' | translate }}</ion-label>
       <ion-input type="email" [(ngModel)]="loginUser.email" required></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label floating>Password</ion-label>
+      <ion-label floating>{{ 'Password' | translate }}</ion-label>
       <ion-input type="password" [(ngModel)]="loginUser.password" (keyup.enter)="loginWithEmail()"></ion-input>
     </ion-item> <br>
 
-      <button ion-button block color="secondary" (click)="loginWithEmail()">Log In</button>
+      <button ion-button block color="secondary" (click)="loginWithEmail('es')">{{ 'Log In' | translate }}</button>
 
 
  </ion-list>
 
-  <h3>Connect with</h3>
+  <h3>{{ 'Connect with' | translate }} </h3>
 
   <ion-list>
      <ion-row>
