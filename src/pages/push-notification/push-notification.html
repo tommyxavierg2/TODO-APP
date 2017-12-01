@@ -11,7 +11,7 @@
   <h3>Push your message</h3>
   <ion-item>
     <ion-label floating>Write your message</ion-label>
-    <ion-textarea [(ngModel)]="message"></ion-textarea>
+    <ion-textarea [(ngModel)]="userMessage"></ion-textarea>
   </ion-item>
-  <button ion-button block (click)="sendNotification(message)" (keyup.enter)="sendNotification(message)">Push your message</button>
+  <button *ngIf="userMessage" ion-button block (click)="sendNotification(userMessage)">Push your message</button>
 </ion-content>
