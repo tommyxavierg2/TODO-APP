@@ -3,7 +3,6 @@ import { NavController, LoadingController, MenuController, ToastController } fro
 
 import { GooglePlus } from '@ionic-native/google-plus';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
-import { OneSignal } from '@ionic-native/onesignal';
 import firebase from 'firebase';
 import axios from "axios"
 axios.defaults.baseURL = 'https://onesignal.com/api/v1/notifications/';
@@ -48,7 +47,7 @@ export class LoginPage {
   constructor(
     public navCtrl: NavController, public loadingCtrl: LoadingController,
     public menu: MenuController, private googlePlus: GooglePlus, private facebook: Facebook,
-    public toastCtrl: ToastController, private onesignal: OneSignal) {
+    public toastCtrl: ToastController) {
     this.loginUser = { email: "", password: "", id: 0 };
     this.isLoggedIn= false;
     this.users = [{email: "", password: "", id: null }];
