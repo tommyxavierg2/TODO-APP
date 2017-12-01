@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { LoadingController, NavController, ToastController } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 
+import { TranslateService } from '@ngx-translate/core';
 import axios from "axios"
 axios.defaults.baseURL = 'https://ucs85wrk.burrow.io/';
 
@@ -19,8 +20,8 @@ export class RegisterPage {
   }
 
   constructor(public loadingCtrl: LoadingController, public navCtrl: NavController,
-              public toastCtrl: ToastController, private fireAuth: AngularFireAuth
-               ) {
+              public toastCtrl: ToastController, private fireAuth: AngularFireAuth,
+              public translateService: TranslateService) {
     this.users = [];
     this.getUsers();
     this.newUser = { email: "", password: "", confirmPassword: "" };

@@ -10,6 +10,10 @@ export class PushNotificationPage {
   oneSignalUserId: string;
   userMessage:string;
 
+  ionViewDidLeave() {
+    this.userMessage = "";
+  }
+
   constructor(public navCtrl: NavController, private onesignal: OneSignal) {
     this.userMessage = "";
   }

@@ -173,7 +173,7 @@ export class LoginPage {
         }).then(() => {
            this.loading.dismiss();
         });
-     } 
+     }
 
    }
 

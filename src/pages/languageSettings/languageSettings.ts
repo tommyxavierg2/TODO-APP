@@ -4,10 +4,10 @@ import { NavController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  templateUrl: 'multilanguage.html'
+  templateUrl: 'languageSettings.html'
 })
 
-export class MultilanguagePage {
+export class LanguageSettingsPage {
   language: string;
 
   constructor(public navCtrl: NavController, public translateService: TranslateService) {
@@ -15,6 +15,7 @@ export class MultilanguagePage {
   }
 
   changeLanguage(selectedLanguage: string) {
-    this.translateService.use(selectedLanguage);
+    this.translateService.setDefaultLang(selectedLanguage);
   }
+
 }

@@ -26,7 +26,7 @@ import { ChartPage } from '../pages/chart/chart';
 import { CarouselPage } from '../pages/carousel/carousel';
 import { HomeChartTabsPage } from '../pages/home-chart-tabs/home-chart-tabs';
 import { PushNotificationPage } from '../pages/push-notification/push-notification';
-import { MultilanguagePage } from '../pages/multilanguage/multilanguage';
+import { LanguageSettingsPage } from '../pages/languageSettings/languageSettings';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyA_1lUAhFwdp3MSvWSfZNqFuaFz2XXxL98",
@@ -53,7 +53,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     LoginRegisterTabsPage,
     HomeChartTabsPage,
     PushNotificationPage,
-    MultilanguagePage,
+    LanguageSettingsPage,
   ],
   imports: [
     BrowserModule,
@@ -81,7 +81,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     LoginRegisterTabsPage,
     HomeChartTabsPage,
     PushNotificationPage,
-    MultilanguagePage,
+    LanguageSettingsPage,
   ],
   providers: [
     StatusBar,

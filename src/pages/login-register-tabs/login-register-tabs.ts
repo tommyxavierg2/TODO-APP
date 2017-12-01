@@ -5,7 +5,7 @@ import { LoginPage } from '../login/login';
 import { RegisterPage } from '../register/register';
 import { CarouselPage } from '../carousel/carousel';
 import { PushNotificationPage } from '../push-notification/push-notification';
-import { MultilanguagePage } from '../multilanguage/multilanguage';
+import { LanguageSettingsPage } from '../languageSettings/languageSettings';
 
 @Component({
   templateUrl: 'login-register-tabs.html'
@@ -16,14 +16,14 @@ export class LoginRegisterTabsPage {
   registerPage: any;
   carouselPage: any;
   pushNotificationPage: any;
-  multilanguagePage: any;
+  languageSettingsPage: any;
 
   constructor(public navCtrl: NavController) {
     this.loginPage = LoginPage;
     this.registerPage = RegisterPage;
     this.carouselPage = CarouselPage;
     this.pushNotificationPage = PushNotificationPage;
-    this.multilanguagePage = MultilanguagePage;
+    this.languageSettingsPage = LanguageSettingsPage;
   }
 
 }
