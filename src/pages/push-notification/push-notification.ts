@@ -8,28 +8,31 @@ import { NavController } from 'ionic-angular';
 
 export class PushNotificationPage {
   oneSignalUserId: string;
-  message:string;
+  userMessage:string;
 
   constructor(public navCtrl: NavController, private onesignal: OneSignal) {
-    this.message = "";
+    this.userMessage = "";
   }
 
   sendNotification(message:string) {
     this.onesignal.getIds().then((ids) => {
-      console.log(ids);
       this.createNotification(ids.userId, message);
     }).catch((err) => console.log(err));
   }
 
   createNotification(userId:string, message:string) {
-      var message = {
+      let notif_count: number = 1;
+      var messageData:any = {
         app_id: "8283ce20-b273-4647-b994-44eee08979f3",
         include_player_ids: [userId],
-        contents: { en: message }
+        contents: { en: message },
+        android_channel_id: "84b986ce-8226-4604-ac07-3c8273ea8cf6",
+        android_group: [notif_count]
       };
-      this.onesignal.postNotification(message)
+      this.onesignal.postNotification(messageData)
       .then(res => {
-        console.log(JSON.stringify(res));
+        //Returns device ID and recipient ID
+        this.userMessage = "";
       }).catch(err => {
         console.log(JSON.stringify(err));
       })
