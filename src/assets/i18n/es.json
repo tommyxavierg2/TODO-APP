@@ -9,5 +9,13 @@
   "Select your language": "Selecciona tu idioma",
   "Write a push message": "Escriba un mensaje push",
   "Send the push message": "Envia el mensaje push",
-  "Message": "Mensaje"
+  "Message": "Mensaje",
+  "Incompleted Tasks": "Tareas incompletas",
+  "Completed Tasks": "Tareas completadas",
+  "Write a task": "Escribe una tarea",
+  "Tasks": "Tareas",
+  "Charts": "Gráficos",
+  "My Tasks": "Mis tareas",
+  "Users and Tasks Chart": "Gráfico de Usuarios y Tareas"
+
 }

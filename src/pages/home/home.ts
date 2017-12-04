@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, LoadingController, MenuController, ToastController } from 'ionic-angular';
 import axios from "axios"
-axios.defaults.baseURL = 'https://ucs85wrk.burrow.io/';
+axios.defaults.baseURL = 'http://173.45.134.35:8080/';
+import { TranslateService } from '@ngx-translate/core';
 
 import { LoginRegisterTabsPage } from '../login-register-tabs/login-register-tabs';
 
@@ -16,7 +17,10 @@ export class HomePage {
   tasks: Array<{description: string, isCompleted: boolean, userId: number, id: number}>;
   newTask: {description: string, isCompleted: boolean};
 
-  constructor(public navCtrl: NavController, public loadingCtrl: LoadingController, public menuCtrl: MenuController, public toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController, public loadingCtrl: LoadingController,
+              public menuCtrl: MenuController, public toastCtrl: ToastController,
+              private TranslateService: TranslateService) {
+
    this.tasks = [];
     this.newTask = { description: "", isCompleted: false };
     this.openMenu();
@@ -58,7 +62,7 @@ export class HomePage {
   updateTasks(index) {
     let currentTask = this.tasks[index];
 
-    if(!currentTask.description) {
+    if(currentTask.description.length == 0) {
         this.presentToast("The task you're trying to update is empty");
     } else {
         axios.put(`/tasks/${currentTask.id}`, {
@@ -87,7 +91,7 @@ export class HomePage {
   addTask() {
     let isDuplicated = this.tasks.some(task => this.newTask.description == task.description);
 
-    if(!this.newTask.description) {
+    if(this.newTask.description.length == 0) {
       this.presentToast("The task can't be empty");
     }
     else if(!isDuplicated) {

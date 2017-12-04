@@ -4,7 +4,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 
 import { TranslateService } from '@ngx-translate/core';
 import axios from "axios"
-axios.defaults.baseURL = 'https://ucs85wrk.burrow.io/';
+axios.defaults.baseURL = 'http://173.45.134.35:8080/';
 
 @Component({
   selector: "page-register",
