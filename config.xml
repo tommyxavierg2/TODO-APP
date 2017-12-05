@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.TODOAPP.project" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>MyApp</name>
+    <name>TODO APP</name>
     <description>An awesome Ionic/Cordova app.</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
     <universal-links>
@@ -9,7 +9,7 @@
             <path url="/__/auth/callback" />
         </host>
     </universal-links>
-    <content src="index.html" />
+    <content original-src="index.html" src="http://192.168.1.174:8100" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -82,6 +82,16 @@
         <splash height="480" src="resources/ios/splash/Default~iphone.png" width="320" />
         <splash height="2732" src="resources/ios/splash/Default@2x~universal~anyany.png" width="2732" />
     </platform>
+    <platform name="ios">
+        <config-file parent="NSMainNibFile" platform="ios" target="*-Info.plist">
+            <string />
+        </config-file>
+    </platform>
+    <platform name="ios">
+        <config-file parent="NSMainNibFile~ipad" platform="ios" target="*-Info.plist">
+            <string />
+        </config-file>
+    </platform>
     <allow-navigation href="http://192.168.1.116:8101" />
     <allow-navigation href="http://192.168.21.1:8101" />
     <allow-navigation href="http://192.168.121.1:8101" />
@@ -96,6 +106,7 @@
     <allow-navigation href="http://192.168.1.44:8101" />
     <allow-navigation href="http://192.168.1.174:8100" />
     <allow-navigation href="http://192.168.1.255:8100" />
+    <allow-navigation href="http://192.168.1.174:8101" />
     <engine name="android" spec="6.3.0" />
     <plugin name="ionic-plugin-keyboard" spec="^2.2.1" />
     <plugin name="cordova-plugin-whitelist" spec="^1.3.3" />
@@ -115,8 +126,6 @@
         <variable name="APP_ID" value="130461421004412" />
         <variable name="APP_NAME" value="TODOAPP" />
     </plugin>
-    <plugin name="cordova-plugin-console" spec="^1.1.0" />
-    <allow-navigation href="http://192.168.1.174:8101" />
-    <plugin name="onesignal-cordova-plugin" spec="^2.2.4" />
     <plugin name="cordova-plugin-statusbar" spec="^2.3.0" />
+    <plugin name="cordova-plugin-globalization" spec="^1.0.8" />
 </widget>
