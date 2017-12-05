@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, LoadingController, MenuController, ToastController } from 'ionic-angular';
 import axios from "axios"
-axios.defaults.baseURL = 'https://ucs85wrk.burrow.io/';
+axios.defaults.baseURL = 'http://173.45.134.35:8080/';
 
 import { LoginRegisterTabsPage } from '../login-register-tabs/login-register-tabs';
 
@@ -16,7 +16,9 @@ export class HomePage {
   tasks: Array<{description: string, isCompleted: boolean, userId: number, id: number}>;
   newTask: {description: string, isCompleted: boolean};
 
-  constructor(public navCtrl: NavController, public loadingCtrl: LoadingController, public menuCtrl: MenuController, public toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController, public loadingCtrl: LoadingController,
+              public menuCtrl: MenuController, public toastCtrl: ToastController) {
+
    this.tasks = [];
     this.newTask = { description: "", isCompleted: false };
     this.openMenu();
@@ -29,7 +31,7 @@ export class HomePage {
 }
 
   doRefresh(refresher) {
-      axios.get(`/tasks?userId=${this.userData.id}&_page=${this.offSet}&_limit=5`)
+      axios.get(`tasks?userId=${this.userData.id}&_page=${this.offSet}&_limit=5`)
       .then(response => {
           let data = response.data;
 
@@ -58,10 +60,10 @@ export class HomePage {
   updateTasks(index) {
     let currentTask = this.tasks[index];
 
-    if(!currentTask.description) {
+    if(currentTask.description.length == 0) {
         this.presentToast("The task you're trying to update is empty");
     } else {
-        axios.put(`/tasks/${currentTask.id}`, {
+        axios.put(`tasks/${currentTask.id}`, {
            description: currentTask.description,
            isCompleted: currentTask.isCompleted,
            userId: this.userData.id
@@ -75,7 +77,7 @@ export class HomePage {
 
   getTasks() {
 
-    axios.get(`/tasks?userId=${this.userData.id}&_page=${this.offSet}&_limit=5`)
+    axios.get(`tasks?userId=${this.userData.id}&_page=${this.offSet}&_limit=5`)
             .then(response => {
                this.tasks = response.data;
                this.offSet++;
@@ -87,11 +89,11 @@ export class HomePage {
   addTask() {
     let isDuplicated = this.tasks.some(task => this.newTask.description == task.description);
 
-    if(!this.newTask.description) {
+    if(this.newTask.description.length == 0) {
       this.presentToast("The task can't be empty");
     }
     else if(!isDuplicated) {
-        axios.post('/tasks', {
+        axios.post('tasks', {
                 description: this.newTask.description,
                 isCompleted: this.newTask.isCompleted,
                 userId: this.userData.id

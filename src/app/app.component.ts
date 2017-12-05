@@ -6,7 +6,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { Facebook } from '@ionic-native/facebook';
 import firebase from 'firebase';
 import { GooglePlus } from '@ionic-native/google-plus';
-import { OneSignal } from '@ionic-native/onesignal';
+//import { OneSignal } from '@ionic-native/onesignal';
 import { TranslateService } from '@ngx-translate/core';
 
 import { LoginRegisterTabsPage } from '../pages/login-register-tabs/login-register-tabs';
@@ -24,7 +24,7 @@ export class MyApp {
   constructor(private platform: Platform, statusBar: StatusBar,
     splashScreen: SplashScreen, private googlePlus: GooglePlus,
     private facebook: Facebook, private toastCtrl: ToastController,
-    private onesignal: OneSignal, private translate: TranslateService) {
+    private translate: TranslateService) {
 
     this.platform.ready().then(() => {
 
@@ -41,12 +41,12 @@ export class MyApp {
       statusBar.styleDefault();
       splashScreen.hide();
 
-      this.initializeOneSignalApp();
+      //this.initializeOneSignalApp();
 
     });
   }
 
-  initializeOneSignalApp() {
+  /*initializeOneSignalApp() {
     this.onesignal.startInit("8283ce20-b273-4647-b994-44eee08979f3", "772372597116");
     this.onesignal.inFocusDisplaying(this.onesignal.OSInFocusDisplayOption.Notification)
     this.onesignal.setSubscription(true);
@@ -59,7 +59,7 @@ export class MyApp {
 
     });
     this.onesignal.endInit();
-  }
+  } */
 
   logout() {
     Promise.all([this.logoutGoogleAndEmail()]).then(response => {})

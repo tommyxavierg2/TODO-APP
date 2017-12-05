@@ -4,7 +4,7 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>
-      TODO App (Tasks: {{tasks.length}})
+      TODO App ({{ 'Tasks' | translate }}: {{tasks.length}})
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -15,7 +15,7 @@
   <ion-refresher-content pullingText="Pull to refresh" refreshingSpinner="circles" refreshingText="Loading tasks..."></ion-refresher-content>
 </ion-refresher>
 
- <h3 *ngIf="inProgress(tasks)">Incompleted Tasks: ({{inProgress(tasks)}})</h3>
+ <h3 *ngIf="inProgress(tasks)">{{ 'Incompleted Tasks' | translate}}: ({{inProgress(tasks)}})</h3>
 
    <div *ngFor="let task of tasks; let i = index">
      <ion-item *ngIf="!task.isCompleted;" text-wrap>
@@ -29,7 +29,7 @@
      </ion-item>
    </div>
 
-   <h3 text-center *ngIf="isCompleted(tasks)">Completed Tasks: ({{isCompleted(tasks)}}) </h3>
+   <h3 text-center *ngIf="isCompleted(tasks)">{{ 'Completed Tasks' | translate }}: ({{isCompleted(tasks)}}) </h3>
 
    <div *ngFor="let task of tasks; let i = index">
      <ion-item *ngIf="task.isCompleted" text-wrap>
@@ -44,7 +44,7 @@
  </div> <br>
 
   <ion-item>
-    <ion-label floating>Write a task</ion-label>
+    <ion-label floating> {{ 'Write a task' | translate }}</ion-label>
     <ion-input type="text" [(ngModel)]="newTask.description" (keyup.enter)="addTask()"></ion-input>
     <button item-right *ngIf="newTask.description"  ion-button round (click)="addTask()">
         <ion-icon name="add"></ion-icon>

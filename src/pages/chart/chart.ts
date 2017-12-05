@@ -3,7 +3,7 @@ import { ToastController } from 'ionic-angular';
 
 import { Chart } from 'chart.js';
 import axios from "axios"
-axios.defaults.baseURL = 'https://ucs85wrk.burrow.io/';
+axios.defaults.baseURL = 'http://173.45.134.35:8080/';
 
 @Component({
   selector: 'page-chart',

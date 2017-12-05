@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { OneSignal } from '@ionic-native/onesignal'
+//import { OneSignal } from '@ionic-native/onesignal'
 import { NavController } from 'ionic-angular';
 
 @Component({
@@ -10,11 +10,15 @@ export class PushNotificationPage {
   oneSignalUserId: string;
   userMessage:string;
 
-  constructor(public navCtrl: NavController, private onesignal: OneSignal) {
+  ionViewDidLeave() {
     this.userMessage = "";
   }
 
-  sendNotification(message:string) {
+  constructor(public navCtrl: NavController) {
+    this.userMessage = "";
+  }
+
+  /*sendNotification(message:string) {
     this.onesignal.getIds().then((ids) => {
       this.createNotification(ids.userId, message);
     }).catch((err) => console.log(err));
@@ -36,6 +40,6 @@ export class PushNotificationPage {
       }).catch(err => {
         console.log(JSON.stringify(err));
       })
-   }
+   }*/
 
 }

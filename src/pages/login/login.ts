@@ -6,7 +6,7 @@ import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 import { TranslateService } from '@ngx-translate/core';
 import firebase from 'firebase';
 import axios from "axios"
-axios.defaults.baseURL = 'https://ucs85wrk.burrow.io/';
+axios.defaults.baseURL = 'http://173.45.134.35:8080/';
 
 import { HomeChartTabsPage } from '../home-chart-tabs/home-chart-tabs';
 
@@ -69,14 +69,14 @@ export class LoginPage {
                 email: response.email,
                 username: response.displayName
               };
+              this.showLoading();
               let isUserRegistered = this.users.some(user => this.googleUserData.email == user.email);
 
               if(!isUserRegistered) {
-                  axios.post("/users", {
+                  axios.post("users", {
                               email: this.googleUserData.email,
                               googleUserId: this.googleUserData.uid
                           }).then(resp => {
-                              this.showLoading();
                               this.isLoggedIn = true;
                               this.goToHomePage(resp.data);
                               this.googleUserData = { email: "", uid: "" };
@@ -85,9 +85,8 @@ export class LoginPage {
                               this.presentToast(`Axios Error ${err}`);
                         });
                } else {
-                 axios.get(`/users?email=${this.googleUserData.email}`)
+                 axios.get(`users?email=${this.googleUserData.email}`)
                  .then(res => {
-                   this.showLoading();
                    this.isLoggedIn = true;
                    this.goToHomePage(res.data[0]);
                    this.loading.dismiss();
@@ -117,7 +116,7 @@ export class LoginPage {
 
         if(!isUserRegistered) {
 
-            axios.post(`/users`, {
+            axios.post(`users`, {
               email: this.facebookUserData.email,
               username: this.facebookUserData.username
             })
@@ -132,10 +131,10 @@ export class LoginPage {
             });
 
         } else {
+            this.showLoading();
 
-            axios.get(`/users?email=${this.facebookUserData.email}`)
+            axios.get(`users?email=${this.facebookUserData.email}`)
             .then(res => {
-                this.showLoading();
                 this.isLoggedIn = true;
                 this.goToHomePage(res.data[0]);
                 this.loading.dismiss();
@@ -151,7 +150,7 @@ export class LoginPage {
      });
   }
 
-  loginWithEmail(language:string) {
+  loginWithEmail() {
     let isUserRegistered = this.users.some(user => this.loginUser.email == user.email);
     let isPasswordCorrect = this.users.some(user => this.loginUser.password == user.password);
 
@@ -163,7 +162,7 @@ export class LoginPage {
           this.presentToast(`The password for user: ${this.loginUser.email} is not correct, please verify and try again.`);
     } else {
        this.showLoading();
-       axios.get(`/users?email=${this.loginUser.email}&password=${this.loginUser.password}`)
+       axios.get(`users?email=${this.loginUser.email}&password=${this.loginUser.password}`)
         .then(response => {
            this.loginUser = { email: "", password: "", id: null };
            this.isLoggedIn = true;
@@ -173,7 +172,7 @@ export class LoginPage {
         }).then(() => {
            this.loading.dismiss();
         });
-     } 
+     }
 
    }
 
@@ -190,7 +189,7 @@ export class LoginPage {
   }
 
   getUsers() {
-    axios.get('/users')
+    axios.get('users')
     .then( res => {
       this.users = res.data;
     })
