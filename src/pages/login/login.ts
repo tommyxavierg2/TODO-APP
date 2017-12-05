@@ -3,10 +3,10 @@ import { NavController, LoadingController, MenuController, ToastController } fro
 
 import { GooglePlus } from '@ionic-native/google-plus';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
-import { OneSignal } from '@ionic-native/onesignal';
+import { TranslateService } from '@ngx-translate/core';
 import firebase from 'firebase';
 import axios from "axios"
-axios.defaults.baseURL = 'https://onesignal.com/api/v1/notifications/';
+axios.defaults.baseURL = 'http://173.45.134.35:8080/';
 
 import { HomeChartTabsPage } from '../home-chart-tabs/home-chart-tabs';
 
@@ -24,7 +24,6 @@ export class LoginPage {
   facebookUserData: any;
   googleUserProfile: any = null;
   loginUser: {email: string, password: string, id: number};
-  oneId: any;
 
   ionViewWillEnter() {
     this.userData = JSON.parse(localStorage.getItem('userData'));
@@ -48,7 +47,7 @@ export class LoginPage {
   constructor(
     public navCtrl: NavController, public loadingCtrl: LoadingController,
     public menu: MenuController, private googlePlus: GooglePlus, private facebook: Facebook,
-    public toastCtrl: ToastController, private onesignal: OneSignal) {
+    public toastCtrl: ToastController, public translateService: TranslateService) {
     this.loginUser = { email: "", password: "", id: 0 };
     this.isLoggedIn= false;
     this.users = [{email: "", password: "", id: null }];
@@ -70,6 +69,7 @@ export class LoginPage {
                 email: response.email,
                 username: response.displayName
               };
+              this.showLoading();
               let isUserRegistered = this.users.some(user => this.googleUserData.email == user.email);
 
               if(!isUserRegistered) {
@@ -77,7 +77,6 @@ export class LoginPage {
                               email: this.googleUserData.email,
                               googleUserId: this.googleUserData.uid
                           }).then(resp => {
-                              this.showLoading();
                               this.isLoggedIn = true;
                               this.goToHomePage(resp.data);
                               this.googleUserData = { email: "", uid: "" };
@@ -88,7 +87,6 @@ export class LoginPage {
                } else {
                  axios.get(`/users?email=${this.googleUserData.email}`)
                  .then(res => {
-                   this.showLoading();
                    this.isLoggedIn = true;
                    this.goToHomePage(res.data[0]);
                    this.loading.dismiss();
@@ -133,10 +131,10 @@ export class LoginPage {
             });
 
         } else {
+            this.showLoading();
 
             axios.get(`/users?email=${this.facebookUserData.email}`)
             .then(res => {
-                this.showLoading();
                 this.isLoggedIn = true;
                 this.goToHomePage(res.data[0]);
                 this.loading.dismiss();

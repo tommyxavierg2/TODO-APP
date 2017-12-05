@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { LoadingController, NavController, ToastController } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
+
+import { TranslateService } from '@ngx-translate/core';
 import axios from "axios"
-axios.defaults.baseURL = 'https://ucs85wrk.burrow.io/';
+axios.defaults.baseURL = 'http://173.45.134.35:8080/';
 
 @Component({
   selector: "page-register",
@@ -17,7 +19,9 @@ export class RegisterPage {
     this.newUser = { email: "", password: "", confirmPassword: "" }
   }
 
-  constructor(public loadingCtrl: LoadingController, public navCtrl: NavController, public toastCtrl: ToastController, private fireAuth: AngularFireAuth) {
+  constructor(public loadingCtrl: LoadingController, public navCtrl: NavController,
+              public toastCtrl: ToastController, private fireAuth: AngularFireAuth,
+              public translateService: TranslateService) {
     this.users = [];
     this.getUsers();
     this.newUser = { email: "", password: "", confirmPassword: "" };

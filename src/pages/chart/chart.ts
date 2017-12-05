@@ -3,7 +3,7 @@ import { ToastController } from 'ionic-angular';
 
 import { Chart } from 'chart.js';
 import axios from "axios"
-axios.defaults.baseURL = 'https://ucs85wrk.burrow.io/';
+axios.defaults.baseURL = 'http://173.45.134.35:8080/';
 
 @Component({
   selector: 'page-chart',
@@ -30,12 +30,9 @@ export class ChartPage {
     });
   }
 
-  constructor(public toastCtrl: ToastController) {
-
-  }
+  constructor(public toastCtrl: ToastController) {}
 
   showCharts() {
-
     let totalUsers = this.users.length;
     let totalTasks = this.tasks.length;
     let totalCompletedTasks = this.tasks.filter(task => task.isCompleted == false);
@@ -74,7 +71,7 @@ export class ChartPage {
       data: {
           labels: ["Users", "Tasks", "Completed tasks", "Incompleted tasks"],
           datasets: [{
-            label: 'Users and tasks totals',
+            label: 'Totals',
               data: [totalUsers, totalTasks, totalIncompletedTasks.length, totalCompletedTasks.length],
               backgroundColor: [
                    'rgba(0, 255, 0, 0.3)',

@@ -5,27 +5,27 @@
 </ion-header>
 
 <ion-content padding text-center>
-  <h1>Register</h1>
+  <h1>{{ 'Register' | translate }}</h1>
 
     <div>
      <ion-item>
-       <ion-label floating>Email</ion-label>
+       <ion-label floating>{{ 'Email' | translate }}</ion-label>
         <ion-input type="email" [(ngModel)]="newUser.email" name="email" required></ion-input>
      </ion-item>
    </div>
    <div>
     <ion-item>
-      <ion-label floating>Password</ion-label>
+      <ion-label floating>{{ 'Password' | translate }}</ion-label>
       <ion-input type="password" [(ngModel)]="newUser.password" name="password"></ion-input>
     </ion-item>
   </div>
   <div>
    <ion-item>
-     <ion-label floating>Confirm password</ion-label>
+     <ion-label floating>{{ 'Confirm password' | translate }}</ion-label>
      <ion-input type="password" [(ngModel)]="newUser.confirmPassword" name="confirmPassword" (keyup.enter)="registerNewUser()"></ion-input>
    </ion-item>
  </div> <br>
 
-  <button ion-button block color="primary" (keyup.enter)="registerNewUser()" (click)="registerNewUser()">Register</button>
+  <button ion-button block color="primary" (keyup.enter)="registerNewUser()" (click)="registerNewUser()">{{ 'Register' | translate }}</button>
 
 </ion-content>
