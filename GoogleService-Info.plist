@@ -7,21 +7,21 @@
 	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
 	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>CLIENT_ID</key>
-	<string>774960942532-mgbb4u8cv30e4pr8rk91doi60m39pc6p.apps.googleusercontent.com</string>
+	<string>772372597116-enlb609d9s63gml27oc6nivom1rqiggj.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.774960942532-mgbb4u8cv30e4pr8rk91doi60m39pc6p</string>
+	<string>com.googleusercontent.apps.772372597116-enlb609d9s63gml27oc6nivom1rqiggj</string>
 	<key>API_KEY</key>
-	<string>AIzaSyA9mQ9uV_FDsgLm9BsBMzOJJORgW3UUaMM</string>
+	<string>AIzaSyDVMJ2dbaKY__1QXuZ65VATxXtYdHJzBOU</string>
 	<key>GCM_SENDER_ID</key>
-	<string>774960942532</string>
+	<string>772372597116</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.TODOAPP.project</string>
 	<key>PROJECT_ID</key>
-	<string>firebase-todo-app-ios</string>
+	<string>todo-app-1feb3</string>
 	<key>STORAGE_BUCKET</key>
-	<string>firebase-todo-app-ios.appspot.com</string>
+	<string>todo-app-1feb3.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<true></true>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -33,8 +33,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:774960942532:ios:f31b0d2eca68aa44</string>
+	<string>1:772372597116:ios:f31b0d2eca68aa44</string>
 	<key>DATABASE_URL</key>
-	<string>https://fir-todo-app-ios.firebaseio.com</string>
+	<string>https://todo-app-1feb3.firebaseio.com</string>
 </dict>
 </plist>
