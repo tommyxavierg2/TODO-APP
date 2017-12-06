@@ -110,14 +110,15 @@ export class HomePage {
       }
  }
 
-  deleteTask(index) {
+  deleteTask(index, item) {
     let taskIndex = this.tasks[index].id;
+
     this.tasks.splice(index, 1);
-    axios.delete('/tasks/' + taskIndex ).then(response => {
+    axios.delete('tasks/' + taskIndex ).then(response => {
             this.presentToast("Task deleted");
         }).catch(error => {
             this.presentToast(error);
-        })
+        });
   }
 
   isCompleted = function() {

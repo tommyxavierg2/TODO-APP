@@ -17,35 +17,46 @@
 
  <h3 *ngIf="inProgress(tasks)">{{ 'Incompleted Tasks' | translate}}: ({{inProgress(tasks)}})</h3>
 
-   <div *ngFor="let task of tasks; let i = index">
-     <ion-item *ngIf="!task.isCompleted;" text-wrap>
-       <ion-checkbox item-left [(ngModel)]="task.isCompleted" (click)="updateTasks(i)"></ion-checkbox>
-        <ion-input *ngIf="!task.isCompleted" (keyup.enter)="updateTasks(i)"
-                    [(ngModel)]="task.description">
-        </ion-input>
-        <button ion-button clear="true" color="dark" item-right (click)="deleteTask(i)" title="Delete">
-            <ion-icon name="close"></ion-icon>
-        </button>
-     </ion-item>
-   </div>
+   <ion-list>
+     <ion-item-sliding *ngFor="let task of tasks; let i = index">">
+       <ion-item *ngIf="!task.isCompleted;" text-wrap>
+         <ion-checkbox item-left [(ngModel)]="task.isCompleted" (click)="updateTasks(i)"></ion-checkbox>
+          <ion-input *ngIf="!task.isCompleted" (keyup.enter)="updateTasks(i)"
+                      [(ngModel)]="task.description">
+          </ion-input>
+       </ion-item>
+       <ion-item-options side="right">
+         <button expandable ion-button round color="danger" (click)="deleteTask(i)">
+           <ion-icon name="trash">
+          </ion-icon>
+         </button>
+       </ion-item-options>
+     </ion-item-sliding>
+   </ion-list>
 
    <h3 text-center *ngIf="isCompleted(tasks)">{{ 'Completed Tasks' | translate }}: ({{isCompleted(tasks)}}) </h3>
 
-   <div *ngFor="let task of tasks; let i = index">
-     <ion-item *ngIf="task.isCompleted" text-wrap>
-       <ion-checkbox item-left [(ngModel)]="task.isCompleted" (click)="updateTasks(i)"></ion-checkbox>
-       <ion-input *ngIf="task.isCompleted" [ngClass]="task.isCompleted ? 'completed': ''"
-                   (keyup.enter)="updateTasks(i)" [(ngModel)]="task.description" >
-       </ion-input>
-       <button ion-button clear="true" color="dark" item-right (click)="deleteTask(i)" title="Delete">
-           <ion-icon name="close"></ion-icon>
-       </button>
-   </ion-item>
- </div> <br>
+  <ion-list >
+    <ion-item-sliding *ngFor="let task of tasks; let i = index">
+        <ion-item *ngIf="task.isCompleted">
+          <ion-checkbox item-left [(ngModel)]="task.isCompleted" (click)="updateTasks(i)"></ion-checkbox>
+          <ion-input *ngIf="task.isCompleted" [ngClass]="task.isCompleted ? 'completed': ''"
+                      (keyup.enter)="updateTasks(i)" [(ngModel)]="task.description" >
+          </ion-input>
+       </ion-item>
+
+       <ion-item-options side="right">
+         <button expandable ion-button round color="danger" (click)="deleteTask(i)">
+           <ion-icon name="trash">
+          </ion-icon>
+         </button>
+       </ion-item-options>
+    </ion-item-sliding>
+</ion-list>
 
   <ion-item>
     <ion-label floating> {{ 'Write a task' | translate }}</ion-label>
-    <ion-input type="text" [(ngModel)]="newTask.description" (keyup.enter)="addTask()"></ion-input>
+    <ion-input type="text" [(ngModel)]="newTask.description" (keyup.enter)="addTask()" autofocus></ion-input>
     <button item-right *ngIf="newTask.description"  ion-button round (click)="addTask()">
         <ion-icon name="add"></ion-icon>
     </button>

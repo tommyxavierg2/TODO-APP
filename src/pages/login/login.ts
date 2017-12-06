@@ -59,7 +59,7 @@ export class LoginPage {
 
   loginWithGoogle() {
     this.googlePlus.login({
-      'webClientId': '772372597116-u54kak3ptk02f5lgm5mp5u2h05chn2op.apps.googleusercontent.com',
+      'webClientId': '774960942532-mgbb4u8cv30e4pr8rk91doi60m39pc6p.apps.googleusercontent.com',
       'offline': true
     }).then( res => {
         firebase.auth().signInWithCredential(firebase.auth.GoogleAuthProvider.credential(res.idToken))
