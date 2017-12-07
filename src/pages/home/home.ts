@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, LoadingController, MenuController, ToastController } from 'ionic-angular';
 import axios from "axios"
 axios.defaults.baseURL = 'http://173.45.134.35:8080/';
+import { TranslateService } from '@ngx-translate/core';
 
 import { LoginRegisterTabsPage } from '../login-register-tabs/login-register-tabs';
 
@@ -17,7 +18,8 @@ export class HomePage {
   newTask: {description: string, isCompleted: boolean};
 
   constructor(public navCtrl: NavController, public loadingCtrl: LoadingController,
-              public menuCtrl: MenuController, public toastCtrl: ToastController) {
+              public menuCtrl: MenuController, public toastCtrl: ToastController,
+              public translateService: TranslateService) {
 
    this.tasks = [];
     this.newTask = { description: "", isCompleted: false };

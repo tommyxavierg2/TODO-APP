@@ -15,7 +15,7 @@
   <ion-refresher-content pullingText="Pull to refresh" refreshingSpinner="circles" refreshingText="Loading tasks..."></ion-refresher-content>
 </ion-refresher>
 
- <h3 *ngIf="inProgress(tasks)">{{ 'Incompleted Tasks' | translate}}: ({{inProgress(tasks)}})</h3>
+ <h3 *ngIf="inProgress(tasks)">{{ 'Incompleted' | translate}}: ({{inProgress(tasks)}})</h3>
 
    <ion-list>
      <ion-item-sliding *ngFor="let task of tasks; let i = index">">
@@ -34,7 +34,7 @@
      </ion-item-sliding>
    </ion-list>
 
-   <h3 text-center *ngIf="isCompleted(tasks)">{{ 'Completed Tasks' | translate }}: ({{isCompleted(tasks)}}) </h3>
+   <h3 text-center *ngIf="isCompleted(tasks)">{{ 'Completed' | translate }}: ({{isCompleted(tasks)}}) </h3>
 
   <ion-list >
     <ion-item-sliding *ngFor="let task of tasks; let i = index">

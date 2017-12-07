@@ -36,6 +36,7 @@
     "angularfire2": "^5.0.0-rc.3",
     "axios": "^0.17.1",
     "chart.js": "^2.7.1",
+    "cordova": "^6.5.0",
     "cordova-android": "6.3.0",
     "cordova-ios": "^4.5.4",
     "cordova-plugin-browsertab": "^0.2.0",

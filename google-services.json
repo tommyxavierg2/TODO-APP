@@ -46,6 +46,13 @@
             {
               "client_id": "772372597116-u54kak3ptk02f5lgm5mp5u2h05chn2op.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "772372597116-enlb609d9s63gml27oc6nivom1rqiggj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.TODOAPP.project"
+              }
             }
           ]
         },

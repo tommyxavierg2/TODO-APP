@@ -26,6 +26,7 @@ export class LoginPage {
   loginUser: {email: string, password: string, id: number};
 
   ionViewWillEnter() {
+    this.menu.enable(false);
     this.userData = JSON.parse(localStorage.getItem('userData'));
     localStorage.removeItem('userData');
 
@@ -34,14 +35,8 @@ export class LoginPage {
       }
 
    else {
-      this.menu.enable(false);
       this.getUsers();
     }
-  }
-
-  ionViewDidLeave() {
-      this.loginUser = { email: "", password: "", id: null };
-      this.menu.enable(true);
   }
 
   constructor(
@@ -59,17 +54,17 @@ export class LoginPage {
 
   loginWithGoogle() {
     this.googlePlus.login({
-      'webClientId': '774960942532-mgbb4u8cv30e4pr8rk91doi60m39pc6p.apps.googleusercontent.com',
+      'webClientId': '772372597116-enlb609d9s63gml27oc6nivom1rqiggj.apps.googleusercontent.com',
       'offline': true
     }).then( res => {
+      this.showLoading();
+
         firebase.auth().signInWithCredential(firebase.auth.GoogleAuthProvider.credential(res.idToken))
         .then( response => {
-              this.isLoggedIn = true;
               this.googleUserData = {
                 email: response.email,
                 username: response.displayName
               };
-              this.showLoading();
               let isUserRegistered = this.users.some(user => this.googleUserData.email == user.email);
 
               if(!isUserRegistered) {
@@ -186,6 +181,7 @@ export class LoginPage {
   goToHomePage(data: any) {
     localStorage.setItem('userData', JSON.stringify(data));
     this.navCtrl.push(HomeChartTabsPage);
+    this.menu.enable(true);
   }
 
   getUsers() {
