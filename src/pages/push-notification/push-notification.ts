@@ -18,12 +18,14 @@ export class PushNotificationPage {
     this.userMessage = "";
   }
 
-  /*sendNotification(message:string) {
+/*
+  sendNotification(message:string) {
     this.onesignal.getIds().then((ids) => {
       this.createNotification(ids.userId, message);
     }).catch((err) => console.log(err));
   }
 
+/*
   createNotification(userId:string, message:string) {
       let notif_count: number = 1;
       var messageData:any = {

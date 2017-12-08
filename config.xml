@@ -126,6 +126,7 @@
     <plugin name="cordova-plugin-statusbar" spec="^2.3.0" />
     <plugin name="cordova-plugin-globalization" spec="^1.0.8" />
     <allow-navigation href="http://169.254.65.116:8101" />
+    <plugin name="cordova-plugin-fcm" spec="~2.1.2" />
     <plugin name="cordova-plugin-googleplus" spec="~5.1.1">
         <variable name="REVERSED_CLIENT_ID" value="com.googleusercontent.apps.772372597116-enlb609d9s63gml27oc6nivom1rqiggj" />
     </plugin>

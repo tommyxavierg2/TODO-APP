@@ -13,6 +13,7 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import firebase from 'firebase';
 import { Facebook } from '@ionic-native/facebook';
 import { Push } from '@ionic-native/push';
+import { FCM } from '@ionic-native/fcm';
 //import { OneSignal } from '@ionic-native/onesignal';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -89,6 +90,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     GooglePlus,
     Facebook,
     Push,
+    FCM,
     //OneSignal,
     {
       provide: ErrorHandler,

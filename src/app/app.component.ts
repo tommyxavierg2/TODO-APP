@@ -6,6 +6,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { Facebook } from '@ionic-native/facebook';
 import firebase from 'firebase';
 import { GooglePlus } from '@ionic-native/google-plus';
+import { FCM } from '@ionic-native/fcm';
 //import { OneSignal } from '@ionic-native/onesignal';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -24,7 +25,7 @@ export class MyApp {
   constructor(private platform: Platform, statusBar: StatusBar,
     splashScreen: SplashScreen, private googlePlus: GooglePlus,
     private facebook: Facebook, private toastCtrl: ToastController,
-    private translate: TranslateService) {
+    private translate: TranslateService, private fcm: FCM) {
 
     this.platform.ready().then(() => {
 
@@ -40,9 +41,21 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
       splashScreen.hide();
+      this.initFcm();
       //this.initializeOneSignalApp();
 
     });
+  }
+
+  initFcm() {
+    this.fcm.onNotification().subscribe(data => {
+      if (data.wasTapped) {
+        console.log(data);
+      }
+      else {
+        console.log(data);
+      }
+    })
   }
 
   /*initializeOneSignalApp() {
