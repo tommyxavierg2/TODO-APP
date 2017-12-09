@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FCM } from '@ionic-native/fcm';
 //import { OneSignal } from '@ionic-native/onesignal'
 import { NavController } from 'ionic-angular';
 
@@ -14,8 +15,20 @@ export class PushNotificationPage {
     this.userMessage = "";
   }
 
-  constructor(public navCtrl: NavController) {
+  constructor(public navCtrl: NavController, private fcm: FCM) {
     this.userMessage = "";
+    this.initFcm();
+  }
+
+  initFcm() {
+    this.fcm.onNotification().subscribe(data => {
+      if (data.wasTapped) {
+        console.log(data);
+      }
+      else {
+        console.log(data);
+      }
+    })
   }
 
 /*
